@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Quản Lý task</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>OOPS NOTHING THERE!</h1>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const userRole = localStorage.getItem('userRole');
+            
+            if (isLoggedIn === 'true') {
+                document.querySelector('.auth-buttons').style.display = 'none';
+                
+                const authButtons = document.querySelector('.auth-buttons');
+                authButtons.innerHTML = '';
+                
+                const dashboardLink = document.createElement('a');
+                dashboardLink.className = 'btn dashboard-btn';
+                dashboardLink.textContent = 'Dashboard';
+                
+                if (userRole === 'admin') {
+                    dashboardLink.href = './pages/admin/home_page.html';
+                } else if (userRole === 'student') {
+                    dashboardLink.href = './pages/admin/student_page.html';
+                }
+                
+                const logoutButton = document.createElement('a');
+                logoutButton.className = 'btn logout-btn';
+                logoutButton.textContent = 'Đăng xuất';
+                logoutButton.href = '#';
+                logoutButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('userRole');
+                    window.location.reload();
+                });
+                
+                authButtons.appendChild(dashboardLink);
+                authButtons.appendChild(logoutButton);
+                authButtons.style.display = 'flex';
+            }
+        });
+    </script>
+</body>
+</html>

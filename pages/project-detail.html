@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Tiết Dự Án</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/project-detail.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div>
+                <h5 class="mb-0">Quản Lý Dự Án</h5>
+            </div>
+            <div>
+                <a href="#" class="text-white me-3 text-decoration-none">Dự Án</a>
+                <a href="#" class="text-white me-3 text-decoration-none">Nhiệm Vụ của tôi</a>
+                <a href="#" class="text-white text-decoration-none">Đăng Xuất</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container main-content w-75">
+        <div class="introduce d-flex justify-content-between">
+            <div class="intro w-50">
+                <h4 class="mb-3">Xây dựng website thương mại điện tử</h4>
+                <p class="text-muted">
+                    Dự án nhằm phát triển một nền tảng thương mại điện tử với các tính năng như giỏ hàng, 
+                    thanh toán và quản lý sản phẩm.
+                </p>
+            </div>
+
+            <div class="member-section w-38">
+                <div class="d-flex justify-content-between mb-3">
+                    <h5>Thành viên</h5>
+                    <button class="btn btn-outline-secondary btn-sm" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMember">
+                        <i class="fas fa-plus me-1"></i> Thêm thành viên
+                    </button>
+                </div>
+                
+                <div class="member-list">
+                    <div class="card mb-2 me-2">
+                        <div class="card-body p-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="member-info">
+                                    <div class="member-avatar avatar-an">AN</div>
+                                    <div>
+                                        <div>An Nguyễn</div>
+                                        <small class="text-muted">Project owner</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-2 me-2">
+                        <div class="card-body p-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="member-info">
+                                    <div class="member-avatar avatar-bach">BA</div>
+                                    <div>
+                                        <div>Bách Nguyễn</div>
+                                        <small class="text-muted">Frontend developer</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <img src="../assets/icon/More.png" alt="more" data-bs-toggle="modal" data-bs-target="#detailMember">
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5>Danh Sách Nhiệm Vụ</h5>
+                    <div class="d-flex align-items-center gap-3 w-38">
+                        <select class="form-select" aria-label="Default select example">
+                            <option disabled selected>Sắp xếp theo</option>
+                            <option value="progess">Tiến độ</option>
+                            <option value="date-start">Ngày bắt đầu</option>
+                            <option value="date-end">Hạn chót</option>
+                            <option value="prioritize">Ưu tiên</option>
+                          </select>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Tìm kiếm nhiệm vụ" aria-label="Tìm kiếm nhiệm vụ">
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary mb-3" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addQuest">
+                    <i class="fas fa-plus me-1"></i> Thêm nhiệm vụ
+                </button>
+                
+                <div class="task-section">
+                    <div class="task-group">
+                        <table class="table table-hover table-task border">
+                            <thead class="text-center">
+                                <tr>
+                                    <th class="border">Tên Nhiệm Vụ</th>
+                                    <th class="border">Người Phụ Trách</th>
+                                    <th class="border">Ưu Tiên</th>
+                                    <th class="border">Ngày Bắt Đầu</th>
+                                    <th class="border">Hạn Chót</th>
+                                    <th class="border">Tiến độ</th>
+                                    <th class="border">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                <tr>
+                                    <td colspan="7" class="fw-bold text-start">
+                                        <i class="fas fa-caret-down me-2 d-inline"></i> To Do
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="border text-start">Soạn thảo đề cương dự án</td>
+                                    <td class="border">An Nguyễn</td>
+                                    <td class="border"><span class="badge status-badge bg-info text-white">Thấp</span></td>
+                                    <td class="border text-primary">02-24</td>
+                                    <td class="border text-primary">02-27</td>
+                                    <td class="border"><span class="badge bg-success">Đúng tiến độ</span></td>
+                                    <td class="border">
+                                        <button class="btn btn-warning btn-sm action-btn">Sửa</button>
+                                        <button class="btn btn-danger btn-sm action-btn">Xóa</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="border text-start">Soạn thảo đề cương dự án</td>
+                                    <td class="border">An Nguyễn</td>
+                                    <td class="border"><span class="badge status-badge bg-warning">Trung bình</span></td>
+                                    <td class="border text-primary">02-24</td>
+                                    <td class="border text-primary">02-27</td>
+                                    <td class="border"><span class="badge bg-warning text-dark">Có rủi ro</span></td>
+                                    <td class="border">
+                                        <button class="btn btn-warning btn-sm action-btn">Sửa</button>
+                                        <button class="btn btn-danger btn-sm action-btn">Xóa</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="border text-start">Soạn thảo đề cương dự án</td>
+                                    <td class="border">An Nguyễn</td>
+                                    <td class="border"><span class="badge status-badge bg-danger">Cao</span></td>
+                                    <td class="border text-primary">02-24</td>
+                                    <td class="border text-primary">02-27</td>
+                                    <td class="border"><span class="badge bg-danger">Trễ hạn</span></td>
+                                    <td class="border">
+                                        <button class="btn btn-warning btn-sm action-btn">Sửa</button>
+                                        <button class="btn btn-danger btn-sm action-btn">Xóa</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="7" class="fw-bold text-start">
+                                        <i class="fas fa-caret-down me-2 d-inline"></i> In Progress
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="border text-start">Lên lịch họp kickoff</td>
+                                    <td class="border">An Nguyễn</td>
+                                    <td class="border"><span class="badge status-badge bg-warning">Trung bình</span></td>
+                                    <td class="border text-primary">02-24</td>
+                                    <td class="border text-primary">02-27</td>
+                                    <td class="border"><span class="badge bg-warning text-dark">Có rủi ro</span></td>
+                                    <td>
+                                        <button class="btn btn-warning btn-sm action-btn">Sửa</button>
+                                        <button class="btn btn-danger btn-sm action-btn">Xóa</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="7" class="fw-bold text-start">
+                                        <i class="fas fa-caret-right me-2"></i> Pending
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="7" class="fw-bold text-start">
+                                        <i class="fas fa-caret-right me-2"></i> Done
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 Team management. All rights reserved.</p>
+        </div>
+    </footer>
+
+
+    <!-- Modal add/edit-->
+    <div class="modal fade" id="addQuest" tabindex="-1" aria-labelledby="addquestLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addquestLabel">Thêm/sửa dự án</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="nameProject">Tên nhiệm vụ</label>
+                    <input type="text" id="project-name-add" class="form-control">
+                    <p id="printMistake" class="text-danger fs-mistake my-2">Tên nhiệm vụ đã tồn tại</p>
+                    <label for="responsiblePerson">Người phụ trách</label>
+                    <select name="" id="responsiblePerson" class="form-control form-select">
+                        <option value="#" disabled selected>Chọn người phụ trách</option>
+                        <option value="An Nguyễn">An Nguyễn</option>
+                        <option value="Bách Nguyễn">Bách Nguyễn</option>
+                        <option value="Dương Nguyễn">Dương Nguyễn</option>
+                    </select>
+                    <label for="statusQuest" class="mt-3">Trạng thái</label>
+                    <select name="" id="statusQuest" class="form-control form-select">
+                        <option value="#" disabled selected>Chọn Trạng thái nhiệm vụ</option>
+                        <option value="Todo">To Do</option>
+                        <option value="inProgress">In Progress</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Done">Done</option>
+                    </select>
+                    <label for="date-start" class="mt-3">Ngày bắt đầu</label>
+                    <input type="date" class="form-control" id="date-start">
+                    <label for="date-end" class="mt-3">Hạn cuối</label>
+                    <input type="date" class="form-control" id="date-end">
+                    <label for="priority" class="mt-3">Độ ưu tiên</label>
+                    <select name="" id="priority" class="form-control form-select">
+                        <option value="#" disabled selected>Chọn độ ưu tiên</option>
+                        <option value="low">Thấp</option>
+                        <option value="normal">Trung bình</option>
+                        <option value="high">Cao</option>
+                    </select>
+                    <label for="progress" class="mt-3">Tiến độ</label>
+                    <select name="" id="progess" class="form-control form-select">
+                        <option value="#" disabled selected>Chọn tiến độ</option>
+                        <option value="Đúng tién độ">Đúng tién độ</option>
+                        <option value="Có rủi ro">Có rủi ro</option>
+                        <option value="Trễ hạn">Trễ hạn</option>
+                    </select>
+
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy </button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal add member-->
+    <div class="modal fade" id="addMember" tabindex="-1" aria-labelledby="addMemberLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="addMemberLabel">Thêm thành viên</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="email">Email</label>
+                <input type="email" id="member-email-add" class="form-control">
+                <p id="printMistake" class="text-danger fs-mistake my-2">Thành viên đã tồn tại</p>
+                <label for="role">Vai trò</label>
+                <input type="text" id="member-role-add" class="form-control">
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy </button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Lưu</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+    <!-- Modal detail member-->
+    <div class="modal fade" id="detailMember" tabindex="-1" aria-labelledby="detailMemberLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="detailMemberLabel">Thêm thành viên</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <p class="text-center">Thành viên</p>
+                        <div class="card mb-2 me-2">
+                            <div class="card-body p-2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="member-info">
+                                        <div class="member-avatar avatar-an">AN</div>
+                                        <div>
+                                            <div>An Nguyễn</div>
+                                            <small class="text-muted">Project owner</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-2 me-2">
+                            <div class="card-body p-2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="member-info">
+                                        <div class="member-avatar avatar-bach">BA</div>
+                                        <div>
+                                            <div>Bách Nguyễn</div>
+                                            <small class="text-muted">Frontend developer</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <p class="text-center">Vai trò</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy </button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Lưu</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

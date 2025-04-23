@@ -4,7 +4,7 @@
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chi Tiết Dự Án</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/project-detail.css">
@@ -17,8 +17,8 @@
                 <h5 class="mb-0">Quản Lý Dự Án</h5>
             </div>
             <div>
-                <a href="#" class="text-white me-3 text-decoration-none">Dự Án</a>
-                <a href="#" class="text-white me-3 text-decoration-none">Nhiệm Vụ của tôi</a>
+                <a href="./project-management.html" class="text-white me-3 text-decoration-none">Dự Án</a>
+                <a href="./personal-task.html" class="text-white me-3 text-decoration-none">Nhiệm Vụ của tôi</a>
                 <a href="#" class="text-white text-decoration-none">Đăng Xuất</a>
             </div>
         </div>
@@ -123,20 +123,20 @@
                                     <td class="border text-start">Soạn thảo đề cương dự án</td>
                                     <td class="border">An Nguyễn</td>
                                     <td class="border"><span class="badge status-badge bg-info text-white">Thấp</span></td>
-                                    <td class="border text-primary">02-24</td>
-                                    <td class="border text-primary">02-27</td>
+                                    <td class="border date-column">02-24</td>
+                                    <td class="border date-column">02-27</td>
                                     <td class="border"><span class="badge bg-success">Đúng tiến độ</span></td>
                                     <td class="border">
-                                        <button class="btn btn-warning btn-sm action-btn">Sửa</button>
-                                        <button class="btn btn-danger btn-sm action-btn">Xóa</button>
+                                        <button class="btn btn-warning btn-sm action-btn"  data-bs-toggle="modal" data-bs-target="#addQuest">Sửa</button>
+                                        <button class="btn btn-danger btn-sm action-btn" data-bs-toggle="modal" data-bs-target="#confirmDel">Xóa</button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="border text-start">Soạn thảo đề cương dự án</td>
                                     <td class="border">An Nguyễn</td>
                                     <td class="border"><span class="badge status-badge bg-warning">Trung bình</span></td>
-                                    <td class="border text-primary">02-24</td>
-                                    <td class="border text-primary">02-27</td>
+                                    <td class="border date-column">02-24</td>
+                                    <td class="border date-column">02-27</td>
                                     <td class="border"><span class="badge bg-warning text-dark">Có rủi ro</span></td>
                                     <td class="border">
                                         <button class="btn btn-warning btn-sm action-btn">Sửa</button>
@@ -147,8 +147,8 @@
                                     <td class="border text-start">Soạn thảo đề cương dự án</td>
                                     <td class="border">An Nguyễn</td>
                                     <td class="border"><span class="badge status-badge bg-danger">Cao</span></td>
-                                    <td class="border text-primary">02-24</td>
-                                    <td class="border text-primary">02-27</td>
+                                    <td class="border date-column">02-24</td>
+                                    <td class="border date-column">02-27</td>
                                     <td class="border"><span class="badge bg-danger">Trễ hạn</span></td>
                                     <td class="border">
                                         <button class="btn btn-warning btn-sm action-btn">Sửa</button>
@@ -164,8 +164,8 @@
                                     <td class="border text-start">Lên lịch họp kickoff</td>
                                     <td class="border">An Nguyễn</td>
                                     <td class="border"><span class="badge status-badge bg-warning">Trung bình</span></td>
-                                    <td class="border text-primary">02-24</td>
-                                    <td class="border text-primary">02-27</td>
+                                    <td class="border date-column">02-24</td>
+                                    <td class="border date-column">02-27</td>
                                     <td class="border"><span class="badge bg-warning text-dark">Có rủi ro</span></td>
                                     <td>
                                         <button class="btn btn-warning btn-sm action-btn">Sửa</button>
@@ -331,6 +331,26 @@
         </div>
         </div>
     </div>
+
+
+        <!-- Modal confirm-->
+        <div class="modal fade" id="confirmDel" tabindex="-1" aria-labelledby="confirmDelLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="confirmDelLabel">Xác nhận xóa</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="my-3">Bạn có chắc chắn muốn xóa dự án này</p>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy </button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Lưu</button>
+                </div>
+            </div>
+            </div>
+        </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>

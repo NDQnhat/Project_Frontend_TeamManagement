@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý nhiệm vụ</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/personal-task.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div>
+                <h5 class="mb-0">Quản Lý Dự Án</h5>
+            </div>
+            <div>
+                <a href="./project-management.html" class="text-white me-3 text-decoration-none">Dự Án</a>
+                <a href="./personal-task.html" class="text-white me-3 text-decoration-none">Nhiệm Vụ của tôi</a>
+                <a href="#" class="text-white text-decoration-none">Đăng Xuất</a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <div class="container my-4 w-75">
+        <h4 class="mb-4">Quản lý nhiệm vụ</h4>
+        
+        <!-- Filter Section -->
+        <div class="row mb-4">
+            <div class="col-12 d-flex justify-content-end">
+                <div class="me-2">
+                    <select class="form-select">
+                        <option disabled selected>Sắp xếp theo</option>
+                        <option>Tên nhiệm vụ</option>
+                        <option>Ngày bắt đầu</option>
+                        <option>Hạn chót</option>
+                        <option>Độ ưu tiên</option>
+                    </select>
+                </div>
+                <div>
+                    <input type="text" class="form-control" placeholder="Tìm kiếm nhiệm vụ">
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <h5>Danh Sách Nhiệm Vụ</h5>
+
+            <!-- Task List -->
+            <div class="task-section">
+                <div class="task-group">
+                    <table class="table table-hover table-task border">
+                        <thead class="text-center">
+                            <tr>
+                                <th class="border">Tên Nhiệm Vụ</th>
+                                <th class="border">Người Phụ Trách</th>
+                                <th class="border">Ưu Tiên</th>
+                                <th class="border">Ngày Bắt Đầu</th>
+                                <th class="border">Hạn Chót</th>
+                                <th class="border">Tiến độ</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr class="collapsible-header">
+                                <td colspan="6">
+                                    <button class="collapsible btn btn-link text-dark p-0 text-decoration-none">
+                                        <span class="collapse-icon">▼</span>
+                                        Xây dựng website thương mại điện tử
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="task-row">
+                                <td class="text-start border">Soạn thảo đề cương dự án</td>
+                                <td class="border">
+                                    <span class="badge priority-low rounded-pill">Thấp</span>
+                                </td>
+                                <td class="border">
+                                    In progress <i class="fa-light fa-pen-to-square" data-bs-toggle="modal" data-bs-target="#confirmUpdate"></i>
+                                </td>
+                                <td class="date-column border">02 - 24</td>
+                                <td class="date-column border">02 - 27</td>
+                                <td class="border">
+                                    <span class="badge progress-ontrack rounded-pill">Đúng tiến độ</span>
+                                </td>
+                            </tr>
+                            <tr class="task-row">
+                                <td class="text-start border">Soạn thảo đề cương dự án</td>
+                                <td class="border">
+                                    <span class="badge priority-medium rounded-pill">Trung bình</span>
+                                </td>
+                                <td class="border">
+                                    In progress <i class="fa-light fa-pen-to-square"></i>
+                                </td>
+                                <td class="date-column border">02 - 24</td>
+                                <td class="date-column border">02 - 27</td>
+                                <td class="border">
+                                    <span class="badge progress-risk rounded-pill">Có rủi ro</span>
+                                </td>
+                            </tr>
+                            <tr class="task-row">
+                                <td class="text-start border">Soạn thảo đề cương dự án</td>
+                                <td class="border">
+                                    <span class="badge priority-high rounded-pill">Cao</span>
+                                </td>
+                                <td class="border">
+                                    Pending <i class="fa-light fa-pen-to-square"></i>
+                                </td>
+                                <td class="date-column border">02 - 24</td>
+                                <td class="date-column border">02 - 27</td>
+                                <td class="border">
+                                    <span class="badge progress-late rounded-pill">Trễ hạn</span>
+                                </td>
+                            </tr>
+                            
+                            <tr class="collapsible-header bg-light">
+                                <td colspan="6">
+                                    <button class="collapsible btn btn-link text-dark p-0 text-decoration-none">
+                                        <span class="collapse-icon">▼</span>
+                                        Phát triển ứng dụng di động
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="task-row">
+                                <td class="text-start border">Lên lịch họp kickoff</td>
+                                <td>
+                                    <span class="badge priority-low rounded-pill">Thấp</span>
+                                </td>
+                                <td class="border">
+                                    In progress <i class="fa-light fa-pen-to-square"></i>
+                                </td>
+                                <td class="date-column border">02 - 24</td>
+                                <td class="date-column border">02 - 27</td>
+                                <td class="border">
+                                    <span class="badge progress-risk rounded-pill">Có rủi ro</span>
+                                </td>
+                            </tr>
+                            
+                            <tr class="collapsible-header bg-light">
+                                <td colspan="6">
+                                    <button class="collapsible btn btn-link text-dark p-0 text-decoration-none collapsed">
+                                        <span class="collapse-icon">▼</span>
+                                        Quản lý dữ liệu khách hàng
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <!-- <footer class="footer">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 Team management. All rights reserved.</p>
+        </div>
+    </footer> -->
+
+
+    <!-- Modal confirm update-->
+    <div class="modal fade" id="confirmUpdate" tabindex="-1" aria-labelledby="confirmUpdateLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="confirmUpdateLabel">Cập nhật trạng thái</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Xác nhận cập nhật trạng thái nhiệm vụ
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy </button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Xác nhận</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const collapsibles = document.querySelectorAll('.collapsible');
+            
+            document.querySelectorAll('.collapsible.collapsed').forEach(collapsible => {
+                hideTaskRows(collapsible);
+            });
+            
+            collapsibles.forEach(collapsible => {
+                collapsible.addEventListener('click', function() {
+                    this.classList.toggle('collapsed');
+                    
+                    if (this.classList.contains('collapsed')) {
+                        hideTaskRows(this);
+                    } else {
+                        showTaskRows(this);
+                    }
+                });
+            });
+            
+            function hideTaskRows(collapsible) {
+                const header = collapsible.closest('.collapsible-header');
+                let nextRow = header.nextElementSibling;
+                
+                while (nextRow && !nextRow.classList.contains('collapsible-header')) {
+                    nextRow.style.display = 'none';
+                    nextRow = nextRow.nextElementSibling;
+                }
+            }
+            
+            function showTaskRows(collapsible) {
+                const header = collapsible.closest('.collapsible-header');
+                let nextRow = header.nextElementSibling;
+                
+                while (nextRow && !nextRow.classList.contains('collapsible-header')) {
+                    nextRow.style.display = '';
+                    nextRow = nextRow.nextElementSibling;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

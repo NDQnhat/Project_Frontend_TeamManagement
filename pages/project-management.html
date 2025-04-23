@@ -4,7 +4,7 @@
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản Lý Dự Án</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/project-management.css">
@@ -17,8 +17,8 @@
                 <h5 class="mb-0">Quản Lý Dự Án</h5>
             </div>
             <div>
-                <a href="#" class="text-white me-3 text-decoration-none">Dự Án</a>
-                <a href="#" class="text-white me-3 text-decoration-none">Nhiệm Vụ của tôi</a>
+                <a href="./project-management.html" class="text-white me-3 text-decoration-none">Dự Án</a>
+                <a href="./personal-task.html" class="text-white me-3 text-decoration-none">Nhiệm Vụ của tôi</a>
                 <a href="#" class="text-white text-decoration-none">Đăng Xuất</a>
             </div>
         </div>
@@ -50,9 +50,9 @@
                         <td class="border">1</td>
                         <td class="border text-start">Xây dựng website thương mại điện tử</td>
                         <td class="btns border">
-                            <button class="btn btn-warning btn-sm edit-btn">Sửa</button>
-                            <button class="btn btn-danger btn-sm del-btn">Xóa</button>
-                            <button class="btn btn-primary btn-sm detail-btn">Chi tiết</button>
+                            <button class="btn btn-warning btn-sm edit-btn" data-bs-toggle="modal" data-bs-target="#addProject">Sửa</button>
+                            <button class="btn btn-danger btn-sm del-btn" data-bs-toggle="modal" data-bs-target="#confirmDel">Xóa</button>
+                            <button class="btn btn-primary btn-sm detail-btn" onclick="location.href = './project-detail.html'">Chi tiết</button>
                         </td>
                     </tr>
                     <tr>

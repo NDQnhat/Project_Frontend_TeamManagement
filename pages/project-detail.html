@@ -11,28 +11,14 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
-        <div class="container d-flex justify-content-between align-items-center">
-            <div>
-                <h5 class="mb-0">Quản Lý Dự Án</h5>
-            </div>
-            <div>
-                <a href="./project-management.html" class="text-white me-3 text-decoration-none">Dự Án</a>
-                <a href="./personal-task.html" class="text-white me-3 text-decoration-none">Nhiệm Vụ của tôi</a>
-                <a href="#" class="text-white text-decoration-none">Đăng Xuất</a>
-            </div>
-        </div>
-    </header>
+    <header class="header" id="header"></header>
 
     <!-- Main Content -->
     <div class="container main-content w-75">
         <div class="introduce d-flex justify-content-between">
             <div class="intro w-50">
-                <h4 class="mb-3">Xây dựng website thương mại điện tử</h4>
-                <p class="text-muted">
-                    Dự án nhằm phát triển một nền tảng thương mại điện tử với các tính năng như giỏ hàng, 
-                    thanh toán và quản lý sản phẩm.
-                </p>
+                <h4 class="mb-3" id="nameOfProject"></h4>
+                <p class="text-muted" id="descriptionProject"></p>
             </div>
 
             <div class="member-section w-38">
@@ -360,7 +346,7 @@
             </div>
         </div>
 
-    <!-- Bootstrap JS -->
+    <script src="../js/project-detail.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -55,7 +55,7 @@ function createHeader() {
                 <h5 class="mb-0">Quản Lý Dự Án</h5>
             </div>
             <div>
-                <a href="#" class="text-white me-3 text-decoration-none" id="goToProject">Dự Án</a>
+                <a href="#" class="text-white me-3 text-decoration-none">Dự Án</a>
                 <a href="#" class="text-white text-decoration-none" id="logOutBtn">Đăng Xuất</a>
             </div>
         </div>`;
@@ -65,7 +65,7 @@ function createHeader() {
                 <h5 class="mb-0">Quản Lý Dự Án</h5>
             </div>
             <div>
-                <a href="#" class="text-white me-3 text-decoration-none" id="goToProject">Dự Án</a>
+                <a href="#" class="text-white me-3 text-decoration-none">Dự Án</a>
                 <a href="#" class="text-white text-decoration-none" id="logOutBtn">Đăng Xuất</a>
             </div>
         </div>`;
@@ -102,7 +102,7 @@ function renderProject(projects = allProjects) {
                             <td class="border">${project.id}</td>
                             <td class="border text-start">${project.projectName}</td>
                             <td class="btns border">
-                                <button class="btn btn-primary btn-sm detail-btn">Chi tiết</button>
+                                <button data-id="${project.id}" class="btn btn-primary btn-sm detail-btn">Chi tiết</button>
                             </td>
                         </tr>`;
             });

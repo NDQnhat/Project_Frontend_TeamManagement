@@ -11,28 +11,17 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
-        <div class="container d-flex justify-content-between align-items-center">
-            <div>
-                <h5 class="mb-0">Quản Lý Dự Án</h5>
-            </div>
-            <div>
-                <a href="./project-management.html" class="text-white me-3 text-decoration-none">Dự Án</a>
-                <a href="./personal-task.html" class="text-white me-3 text-decoration-none">Nhiệm Vụ của tôi</a>
-                <a href="#" class="text-white text-decoration-none">Đăng Xuất</a>
-            </div>
-        </div>
-    </header>
+    <header class="header" id="header"></header>
 
     <!-- Main Content -->
     <div class="container main-content w-75">
         <h4 class="mb-4">Quản Lý Dự Án Nhóm</h4>
         <div class="d-flex justify-content-between mb-4">
-            <button class="btn btn-primary" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProject">
+            <button id="addProjectBtn" class="btn btn-primary" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProject">
                 <i class="fas fa-plus me-1"></i> Thêm Dự Án
             </button>
             <div class="col-md-4">
-                <input type="text" class="form-control" placeholder="Tìm kiếm dự án" id="search-project">
+                <input type="text" onchange="searchProject()" class="form-control" placeholder="Tìm kiếm dự án" id="search-project">
             </div>
         </div>
         
@@ -45,89 +34,7 @@
                         <th class="btns">Hành Động</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td class="border">1</td>
-                        <td class="border text-start">Xây dựng website thương mại điện tử</td>
-                        <td class="btns border">
-                            <button class="btn btn-warning btn-sm edit-btn" data-bs-toggle="modal" data-bs-target="#addProject">Sửa</button>
-                            <button class="btn btn-danger btn-sm del-btn" data-bs-toggle="modal" data-bs-target="#confirmDel">Xóa</button>
-                            <button class="btn btn-primary btn-sm detail-btn" onclick="location.href = './project-detail.html'">Chi tiết</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="border">2</td>
-                        <td class="border text-start">Phát triển ứng dụng di động</td>
-                        <td class="btns border">
-                            <button class="btn btn-warning btn-sm edit-btn">Sửa</button>
-                            <button class="btn btn-danger btn-sm del-btn">Xóa</button>
-                            <button class="btn btn-primary btn-sm detail-btn">Chi tiết</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="border">3</td>
-                        <td class="border text-start">Quản lý dữ liệu khách hàng</td>
-                        <td class="btns border">
-                            <button class="btn btn-warning btn-sm edit-btn">Sửa</button>
-                            <button class="btn btn-danger btn-sm del-btn">Xóa</button>
-                            <button class="btn btn-primary btn-sm detail-btn">Chi tiết</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="border">4</td>
-                        <td class="border text-start">Xây dựng website thương mại điện tử</td>
-                        <td class="btns border">
-                            <button class="btn btn-warning btn-sm edit-btn">Sửa</button>
-                            <button class="btn btn-danger btn-sm del-btn">Xóa</button>
-                            <button class="btn btn-primary btn-sm detail-btn">Chi tiết</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="border">5</td>
-                        <td class="border text-start">Phát triển ứng dụng di động</td>
-                        <td class="btns border">
-                            <button class="btn btn-warning btn-sm edit-btn">Sửa</button>
-                            <button class="btn btn-danger btn-sm del-btn">Xóa</button>
-                            <button class="btn btn-primary btn-sm detail-btn">Chi tiết</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="border">6</td>
-                        <td class="border text-start">Quản lý dữ liệu khách hàng</td>
-                        <td class="btns border">
-                            <button class="btn btn-warning btn-sm edit-btn">Sửa</button>
-                            <button class="btn btn-danger btn-sm del-btn">Xóa</button>
-                            <button class="btn btn-primary btn-sm detail-btn">Chi tiết</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="border">7</td>
-                        <td class="border text-start">Xây dựng website thương mại điện tử</td>
-                        <td class="border">
-                            <button class="btn btn-warning btn-sm edit-btn">Sửa</button>
-                            <button class="btn btn-danger btn-sm del-btn">Xóa</button>
-                            <button class="btn btn-primary btn-sm detail-btn">Chi tiết</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="border">8</td>
-                        <td class="border text-start">Phát triển ứng dụng di động</td>
-                        <td class="btns border">
-                            <button class="btn btn-warning btn-sm edit-btn">Sửa</button>
-                            <button class="btn btn-danger btn-sm del-btn">Xóa</button>
-                            <button class="btn btn-primary btn-sm detail-btn">Chi tiết</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="border">9</td>
-                        <td class="border text-start">Quản lý dữ liệu khách hàng</td>
-                        <td class="btns border">
-                            <button class="btn btn-warning btn-sm edit-btn">Sửa</button>
-                            <button class="btn btn-danger btn-sm del-btn">Xóa</button>
-                            <button class="btn btn-primary btn-sm detail-btn">Chi tiết</button>
-                        </td>
-                    </tr>
-                </tbody>
+                <tbody id="table-body"></tbody>
             </table>
         </div>
         
@@ -170,13 +77,14 @@
             <div class="modal-body">
                 <label for="nameProject">Tên dự án</label>
                 <input type="text" id="project-name-add" class="form-control">
-                <p id="printMistake" class="text-danger fs-mistake my-2">Tên danh mục đã tồn tại</p>
+                <p id="printMistake" class="text-danger fs-mistake my-2"></p>
                 <label for="nameProject">Mô tả dự án</label>
                 <textarea name="" id="project-describe-add" class="form-control"></textarea>
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy </button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Lưu</button>
+            <!-- <button type="button" id="saveAddBtn" class="btn btn-primary" data-bs-dismiss="modal">Lưu</button> no' phai? luon lang' nghe moi' duoc. -->
+            <button type="button" id="saveAddBtn" class="btn btn-primary" data-bs-dismiss="modal">Lưu</button>
             </div>
         </div>
         </div>
@@ -196,13 +104,13 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy </button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Lưu</button>
+            <button type="button" class="btn btn-primary" id="confirmDel" data-bs-dismiss="modal">Lưu</button>
             </div>
         </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
+    <script src="../js/project-management.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -1,10 +1,19 @@
 let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+// let adminAccount = JSON.parse(localStorage.getItem("adminAccount")) || {};
+let adminAccount = null;
+if(!localStorage.getItem("adminAccount")) {
+    adminAccount = {email: "admin123@gmail.com", password: "Admin@12345", role: "admin"};
+    localStorage.setItem("adminAccount", JSON.stringify(adminAccount));
+} else {
+    adminAccount = JSON.parse(localStorage.getItem("adminAccount"));
+}
 
 // makeSecurityAnswer = () => {
 //     let 
 // }
 
 checkOutAndRegister = function () {
+    console.log(adminAccount);
     let fullname = document.getElementById("fullname").value;
     let inputEmail = document.getElementById("email").value;
     let inputPassword = document.getElementById("password").value;
@@ -24,7 +33,16 @@ checkOutAndRegister = function () {
         return;
     }
 
-    let isExisted = accounts.some(account => account.email === inputEmail);
+    let isExisted = false;
+    if(inputEmail === adminAccount.email) {
+        isExisted = true;
+    }
+    if (isExisted) {
+        printMistake.innerHTML = "Email already exists!! ";
+        return;
+    }
+
+    isExisted = accounts.some(account => account.email === inputEmail);
     if (isExisted) {
         printMistake.innerHTML = "Email already exists!! ";
         return;
@@ -44,7 +62,7 @@ checkOutAndRegister = function () {
     let answer = prompt("Set a recovery phrase. It will be used to reset your password if needed");
     // accounts.push({id: ++accounts.length, fullname: fullname, email: inputEmail, password: inputPassword, securityAnswer: answer});
     let newId = accounts.length + 1;
-    accounts.push({id: newId, fullname: fullname, email: inputEmail, password: inputPassword, securityAnswer: answer});
+    accounts.push({id: newId, fullname: fullname, email: inputEmail, password: inputPassword, role: "member", securityAnswer: answer});
     localStorage.setItem("accounts", JSON.stringify(accounts));
     alert("Register successfully!! Please Login");
     location.href = '../pages/login.html';

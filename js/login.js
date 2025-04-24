@@ -5,14 +5,17 @@ checkOutAndLogin = function () {
     let inputPassword = document.getElementById("password").value;
     let printMistake = document.getElementById("mistake");
 
-    if (accounts.some(account => account.email === inputEmail) && accounts.some(account => account.password === inputPassword)) {
-        alert("login success!!");
+    let account = accounts.find(account => account.email === inputEmail && account.password === inputPassword);
+
+    if (account) {
         printMistake.innerHTML = "";
-        location.href = '../pages/admin/project_management.html';
+        alert("Login success!!");
+        location.href = '../pages/project_management.html';
     } else {
         printMistake.innerHTML = "Password incorrect or account not exists!!";
     }
 }
+
 
 forgotPass = function () {
     if (confirm("Are you sure to reset your password ???")) {

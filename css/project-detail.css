@@ -100,3 +100,11 @@ body {
 .avatar-bach {
     background-color: #6f42c1;
 }
+
+.card {
+    width: 10rem;
+}
+
+.fa-trash-can-slash {
+    color: #DC3545;
+}

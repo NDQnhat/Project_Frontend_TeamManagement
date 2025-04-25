@@ -108,3 +108,13 @@ body {
 .fa-trash-can-slash {
     color: #DC3545;
 }
+
+.rotate-icon {
+    rotate: -90deg;
+}
+
+/* .projectToDo {
+    transition: transform 0.3s ease;
+} */
+
+

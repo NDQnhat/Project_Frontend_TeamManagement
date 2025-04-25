@@ -50,3 +50,12 @@
 .date-column {
     color: #0D6EFD !important;
 }
+
+.hidden-tasks{
+    /* transform: translateY(-10px);
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease; */
+    display: none;
+}

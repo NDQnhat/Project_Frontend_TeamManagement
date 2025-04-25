@@ -47,29 +47,29 @@ document.getElementById("nameOfProject").innerHTML = currentProject.projectName;
 document.getElementById("descriptionProject").innerHTML = currentProject.description;
 
 
-// //su? li' nhan' nut mui~ ten
-// document.getElementById("projectToDo").addEventListener("click", function(event) {
-//     // event.target.classList.toggle("rotate-icon");
-//     // document.querySelectorAll(".projectToDo").classList.toggle("hidden-tasks"); tra? ve` 1 list nen phai? dung` vong` lap.
-//     document.querySelectorAll(".projectToDo").forEach(function(element) {
-//         element.classList.toggle("hidden-tasks");
-//     });
-// });
-// document.getElementById("projectInProgress").addEventListener("click", function() {
-//     document.querySelectorAll(".projectInProgress").forEach(function(element) {
-//         element.classList.toggle("hidden-tasks");
-//     });
-// });
-// document.getElementById("projectPending").addEventListener("click", function() {
-//     document.querySelectorAll(".projectPending").forEach(function(element) {
-//         element.classList.toggle("hidden-tasks");
-//     });
-// });
-// document.getElementById("projectDone").addEventListener("click", function () {
-//     document.querySelectorAll(".projectDone").forEach(function (element) {
-//         element.classList.toggle("hidden-tasks");
-//     });
-// });
+//su? li' nhan' nut mui~ ten
+document.getElementById("projectToDo").addEventListener("click", function (event) {
+    // event.target.classList.toggle("rotate-icon");
+    // document.querySelectorAll(".projectToDo").classList.toggle("hidden-tasks"); tra? ve` 1 list nen phai? dung` vong` lap.
+    document.querySelectorAll(".projectToDo").forEach(function (element) {
+        element.classList.toggle("hidden-tasks");
+    });
+});
+document.getElementById("projectInProgress").addEventListener("click", function () {
+    document.querySelectorAll(".projectInProgress").forEach(function (element) {
+        element.classList.toggle("hidden-tasks");
+    });
+});
+document.getElementById("projectPending").addEventListener("click", function () {
+    document.querySelectorAll(".projectPending").forEach(function (element) {
+        element.classList.toggle("hidden-tasks");
+    });
+});
+document.getElementById("projectDone").addEventListener("click", function () {
+    document.querySelectorAll(".projectDone").forEach(function (element) {
+        element.classList.toggle("hidden-tasks");
+    });
+});
 
 //set up 1 vai` task mac. dinh. cho pj
 (function createDefaultTask() {
@@ -96,293 +96,120 @@ document.getElementById("descriptionProject").innerHTML = currentProject.descrip
     }
 })();
 
-// (function renderTasks() {
-//     let todoTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "to do");
-//     let inProgressTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "in progress");
-//     let pendingTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "pending");
-//     let doneTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "done");
-
-//     let members = currentProject.members || [];
-
-//     // khoi? tao. tung` hang` trong html
-//     const generateTaskRow = (task, statusClass) => {
-//         let priorityClass = "";
-//         switch (task.priority.toLowerCase()) {
-//             case "thấp": priorityClass = "bg-info"; break;
-//             case "trung bình": priorityClass = "bg-warning"; break;
-//             case "cao": priorityClass = "bg-danger"; break;
-//             default: priorityClass = "bg-secondary";
-//         }
-
-//         let progressClass = "";
-//         let progressText = task.progress;
-//         switch (task.progress.toLowerCase()) {
-//             case "đúng tiến độ": progressClass = "bg-success"; break;
-//             case "có rủi ro": progressClass = "bg-warning text-dark"; break;
-//             case "trễ hạn": progressClass = "bg-danger"; break;
-//             default: progressClass = "bg-secondary";
-//         }
-
-//         const formatDate = (dateString) => {
-//             if (!dateString) return "";
-//             const date = new Date(dateString);
-//             return `${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-//         };
-
-//         const assignedPerson = members.find(member => member.id === task.assignedId);
-//         const assignedName = assignedPerson ? assignedPerson.name : "An Nguyễn"; // gan' mac. dinh. nu' khong thay'
-
-//         return `
-//             <tr class="${statusClass}">
-//                 <td class="border text-start">${task.taskName}</td>
-//                 <td class="border">${assignedName}</td>
-//                 <td class="border"><span class="badge status-badge ${priorityClass}">${task.priority}</span></td>
-//                 <td class="border date-column">${formatDate(task.assignedDate)}</td>
-//                 <td class="border date-column">${formatDate(task.dueDate)}</td>
-//                 <td class="border"><span class="badge ${progressClass}">${progressText}</span></td>
-//                 <td class="border">
-//                     <button class="btn btn-warning btn-sm action-btn" data-bs-toggle="modal" data-bs-target="#addQuest" data-task-id="${task.id}">Sửa</button>
-//                     <button class="btn btn-danger btn-sm action-btn" data-bs-toggle="modal" data-bs-target="#confirmDel" data-task-id="${task.id}">Xóa</button>
-//                 </td>
-//             </tr>
-//         `;
-//     };
-
-//     let todoHtml = "";
-//     todoTasks.forEach(task => {
-//         todoHtml += generateTaskRow(task, "projectToDo");
-//     });
-
-//     let inProgressHtml = "";
-//     inProgressTasks.forEach(task => {
-//         inProgressHtml += generateTaskRow(task, "projectInProgress");
-//     });
-
-//     let pendingHtml = "";
-//     pendingTasks.forEach(task => {
-//         pendingHtml += generateTaskRow(task, "projectPending");
-//     });
-
-//     let doneHtml = "";
-//     doneTasks.forEach(task => {
-//         doneHtml += generateTaskRow(task, "projectDone");
-//     });
-
-//     // tao. cau' truc cho table
-//     document.getElementById("table-body").innerHTML = `
-//         <tr id="projectToDo">
-//             <td colspan="7" class="fw-bold text-start">
-//                 <button class="collapsible btn btn-link text-dark p-0 text-decoration-none">
-//                     <span class="collapse-icon">▼</span>To Do
-//                 </button> 
-//             </td>
-//         </tr>
-//         ${todoHtml}
-//         <tr id="projectInProgress">
-//             <td colspan="7" class="fw-bold text-start">
-//                 <button class="collapsible btn btn-link text-dark p-0 text-decoration-none">
-//                     <span class="collapse-icon">▼</span>In Progress
-//                 </button> 
-//             </td>
-//         </tr>
-//         ${inProgressHtml}
-//         <tr id="projectPending">
-//             <td colspan="7" class="fw-bold text-start">
-//                 <button class="collapsible btn btn-link text-dark p-0 text-decoration-none">
-//                     <span class="collapse-icon">▼</span>Pending
-//                 </button> 
-//             </td>
-//         </tr>
-//         ${pendingHtml}
-//         <tr id="projectDone">
-//             <td colspan="7" class="fw-bold text-start">
-//                 <button class="collapsible btn btn-link text-dark p-0 text-decoration-none">
-//                     <span class="collapse-icon">▼</span>Done
-//                 </button> 
-//             </td>
-//         </tr>
-//         ${doneHtml}`;
-
-//     //su? li' nhan' nut mui~ ten
-//     document.getElementById("projectToDo").addEventListener("click", function (event) {
-//         // event.target.classList.toggle("rotate-icon");
-//         // document.querySelectorAll(".projectToDo").classList.toggle("hidden-tasks"); tra? ve` 1 list nen phai? dung` vong` lap.
-//         document.querySelectorAll(".projectToDo").forEach(function (element) {
-//             element.classList.toggle("hidden-tasks");
-//         });
-//     });
-//     document.getElementById("projectInProgress").addEventListener("click", function () {
-//         document.querySelectorAll(".projectInProgress").forEach(function (element) {
-//             element.classList.toggle("hidden-tasks");
-//         });
-//     });
-//     document.getElementById("projectPending").addEventListener("click", function () {
-//         document.querySelectorAll(".projectPending").forEach(function (element) {
-//             element.classList.toggle("hidden-tasks");
-//         });
-//     });
-//     document.getElementById("projectDone").addEventListener("click", function () {
-//         document.querySelectorAll(".projectDone").forEach(function (element) {
-//             element.classList.toggle("hidden-tasks");
-//         });
-//     });    
-// })();
 
 renderTasks = () => {
-    // First, find the current project data
-    let currentProjectId = JSON.parse(sessionStorage.getItem("idProjectDetail")) || "";
-    let allProjects = JSON.parse(localStorage.getItem("allProjects")) || [];
-    let currentProject = allProjects.find(project => project.id === currentProjectId);
-
-    if (!currentProject || !currentProject.tasks) {
-        return; // Exit if no project or tasks found
-    }
-
-    // Group tasks by status
-    let todoTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "to do");
-    let inProgressTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "in progress");
-    let pendingTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "pending");
-    let doneTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "done");
-
-    // Get all members for task assignment info
+    html = "";
     let members = currentProject.members || [];
+    let assignedPerson = members.find(member => member.id === task.assignedId);
 
-    // Function to generate task row HTML
-    const generateTaskRow = (task, statusClass) => {
-        // Convert priority to appropriate badge class
-        let priorityClass = "";
-        switch (task.priority.toLowerCase()) {
-            case "thấp": priorityClass = "bg-info"; break;
-            case "trung bình": priorityClass = "bg-warning"; break;
-            case "cao": priorityClass = "bg-danger"; break;
-            default: priorityClass = "bg-secondary";
-        }
-
-        // Convert progress to appropriate badge class
+    //tao. ham` lay' ra class mau` nen` cho tien' do.
+    let getProgressClassStyle = (task) => {
         let progressClass = "";
-        let progressText = task.progress;
-        switch (task.progress.toLowerCase()) {
+        let progressText = task.progress.toLowerCase();
+        switch(progressText) {
             case "đúng tiến độ": progressClass = "bg-success"; break;
             case "có rủi ro": progressClass = "bg-warning text-dark"; break;
             case "trễ hạn": progressClass = "bg-danger"; break;
             default: progressClass = "bg-secondary";
         }
+        return progressClass;
+    }
 
-        // Format dates (assuming format YYYY-MM-DD to MM-DD)
-        const formatDate = (dateString) => {
-            if (!dateString) return "";
-            const date = new Date(dateString);
-            return `${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-        };
+    //ham` lay' ra class mau` nen` cho uu tien
+    let getPriorityClassStyle = (task) => {
+        let priorityClass = "";
+        let priorityText = task.priority.toLowerCase();
+        switch(priorityText) {
+            case "thấp": priorityClass = "bg-info"; break;
+            case "trung bình": priorityClass = "bg-warning"; break;
+            case "cao": priorityClass = "bg-danger"; break;
+            default: priorityClass = "bg-secondary";
+        }
+        return priorityClass;
+    } 
 
-        // Find assigned person's name
-        const assignedPerson = members.find(member => member.id === task.assignedId);
-        const assignedName = assignedPerson ? assignedPerson.name : "An Nguyễn"; // Default to An Nguyễn if not found
+    let todoTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "to do");
+    let inProgressTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "in progress");
+    let pendingTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "pending");
+    let doneTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "done");
 
-        return `
-            <tr class="${statusClass}">
+    let projectToDo = document.getElementById("projectToDo");
+    todoTasks.forEach(task => {
+        html += `
+            <tr class="projectToDo">
                 <td class="border text-start">${task.taskName}</td>
-                <td class="border">${assignedName}</td>
-                <td class="border"><span class="badge status-badge ${priorityClass}">${task.priority}</span></td>
-                <td class="border date-column">${formatDate(task.assignedDate)}</td>
-                <td class="border date-column">${formatDate(task.dueDate)}</td>
-                <td class="border"><span class="badge ${progressClass}">${progressText}</span></td>
+                <td class="border">${assignedPerson}</td>
+                <td class="border"><span class="badge status-badge ${getPriorityClassStyle(task)}">${task.priority}</span></td>
+                <td class="border date-column">${task.assignedDate}</td>
+                <td class="border date-column">${task.dueDate}</td>
+                <td class="border"><span class="badge ${getProgressClassStyle(task)}">${task.progress}</span></td>
                 <td class="border">
-                    <button class="btn btn-warning btn-sm action-btn" data-bs-toggle="modal" data-bs-target="#addQuest" data-task-id="${task.id}">Sửa</button>
-                    <button class="btn btn-danger btn-sm action-btn" data-bs-toggle="modal" data-bs-target="#confirmDel" data-task-id="${task.id}">Xóa</button>
+                    <button class="btn btn-warning btn-sm action-btn" data-id="${task.id}"  data-bs-toggle="modal" data-bs-target="#addQuest">Sửa</button>
+                    <button data-id="${task.id}" class="btn btn-danger btn-sm action-btn" data-bs-toggle="modal" data-bs-target="#confirmDel">Xóa</button>
                 </td>
             </tr>
         `;
-    };
-
-    // Render To Do tasks
-    let todoHtml = "";
-    todoTasks.forEach(task => {
-        todoHtml += generateTaskRow(task, "projectToDo");
     });
+    projectToDo.insertAdjacentHTML("afterend", html);
 
-    // Render In Progress tasks
-    let inProgressHtml = "";
+    let projectInProgress = document.getElementById("projectInProgress");
+    html = "";
     inProgressTasks.forEach(task => {
-        inProgressHtml += generateTaskRow(task, "projectInProgress");
+        html += `
+            <tr class="projectInProgress">
+                <td class="border text-start">${task.taskName}</td>
+                <td class="border">${assignedPerson}</td>
+                <td class="border"><span class="badge status-badge ${getPriorityClassStyle(task)}">${task.priority}</span></td>
+                <td class="border date-column">${task.assignedDate}</td>
+                <td class="border date-column">${task.dueDate}</td>
+                <td class="border"><span class="badge ${getProgressClassStyle(task)}">${task.progress}</span></td>
+                <td class="border">
+                    <button class="btn btn-warning btn-sm action-btn" data-id="${task.id}"  data-bs-toggle="modal" data-bs-target="#addQuest">Sửa</button>
+                    <button data-id="${task.id}" class="btn btn-danger btn-sm action-btn" data-bs-toggle="modal" data-bs-target="#confirmDel">Xóa</button>
+                </td>
+            </tr>
+        `;
     });
+    projectInProgress.insertAdjacentHTML("afterend", html);
 
-    // Render Pending tasks
-    let pendingHtml = "";
+    let projectPending = document.getElementById("projectPending");
+    html = "";
     pendingTasks.forEach(task => {
-        pendingHtml += generateTaskRow(task, "projectPending");
+        html += `
+            <tr class="projectPending">
+                <td class="border text-start">${task.taskName}</td>
+                <td class="border">${assignedPerson}</td>
+                <td class="border"><span class="badge status-badge ${getPriorityClassStyle(task)}">${task.priority}</span></td>
+                <td class="border date-column">${task.assignedDate}</td>
+                <td class="border date-column">${task.dueDate}</td>
+                <td class="border"><span class="badge ${getProgressClassStyle(task)}">${task.progress}</span></td>
+                <td class="border">
+                    <button class="btn btn-warning btn-sm action-btn" data-id="${task.id}"  data-bs-toggle="modal" data-bs-target="#addQuest">Sửa</button>
+                    <button data-id="${task.id}" class="btn btn-danger btn-sm action-btn" data-bs-toggle="modal" data-bs-target="#confirmDel">Xóa</button>
+                </td>
+            </tr>
+        `;
     });
+    projectPending.insertAdjacentHTML("afterend", html);
 
-    // Render Done tasks
-    let doneHtml = "";
+    let projectDone = document.getElementById("projectDone");
+    html = "";
     doneTasks.forEach(task => {
-        doneHtml += generateTaskRow(task, "projectDone");
+        html += `
+            <tr class="projectDone">
+                <td class="border text-start">${task.taskName}</td>
+                <td class="border">${assignedPerson}</td>
+                <td class="border"><span class="badge status-badge ${getPriorityClassStyle(task)}">${task.priority}</span></td>
+                <td class="border date-column">${task.assignedDate}</td>
+                <td class="border date-column">${task.dueDate}</td>
+                <td class="border"><span class="badge ${getProgressClassStyle(task)}">${task.progress}</span></td>
+                <td class="border">
+                    <button class="btn btn-warning btn-sm action-btn" data-id="${task.id}"  data-bs-toggle="modal" data-bs-target="#addQuest">Sửa</button>
+                    <button data-id="${task.id}" class="btn btn-danger btn-sm action-btn" data-bs-toggle="modal" data-bs-target="#confirmDel">Xóa</button>
+                </td>
+            </tr>
+        `;
     });
-
-    // Insert tasks into the table
-    const tableBody = document.getElementById("table-body");
-
-    // Create the table structure with collapsible sections
-    tableBody.innerHTML = `
-        <tr id="projectToDo">
-            <td colspan="7" class="fw-bold text-start">
-                <button class="collapsible btn btn-link text-dark p-0 text-decoration-none">
-                    <span class="collapse-icon">▼</span>To Do
-                </button> 
-            </td>
-        </tr>
-        ${todoHtml}
-        <tr id="projectInProgress">
-            <td colspan="7" class="fw-bold text-start">
-                <button class="collapsible btn btn-link text-dark p-0 text-decoration-none">
-                    <span class="collapse-icon">▼</span>In Progress
-                </button> 
-            </td>
-        </tr>
-        ${inProgressHtml}
-        <tr id="projectPending">
-            <td colspan="7" class="fw-bold text-start">
-                <button class="collapsible btn btn-link text-dark p-0 text-decoration-none">
-                    <span class="collapse-icon">▼</span>Pending
-                </button> 
-            </td>
-        </tr>
-        ${pendingHtml}
-        <tr id="projectDone">
-            <td colspan="7" class="fw-bold text-start">
-                <button class="collapsible btn btn-link text-dark p-0 text-decoration-none">
-                    <span class="collapse-icon">▼</span>Done
-                </button> 
-            </td>
-        </tr>
-        ${doneHtml}
-    `;
-
-    // Re-attach event listeners for collapsible sections
-    document.getElementById("projectToDo").addEventListener("click", function () {
-        document.querySelectorAll(".projectToDo").forEach(function (element) {
-            element.classList.toggle("hidden-tasks");
-        });
-    });
-
-    document.getElementById("projectInProgress").addEventListener("click", function () {
-        document.querySelectorAll(".projectInProgress").forEach(function (element) {
-            element.classList.toggle("hidden-tasks");
-        });
-    });
-
-    document.getElementById("projectPending").addEventListener("click", function () {
-        document.querySelectorAll(".projectPending").forEach(function (element) {
-            element.classList.toggle("hidden-tasks");
-        });
-    });
-
-    document.getElementById("projectDone").addEventListener("click", function () {
-        document.querySelectorAll(".projectDone").forEach(function (element) {
-            element.classList.toggle("hidden-tasks");
-        });
-    });
+    projectDone.insertAdjacentHTML("afterend", html);
 };
-
-// Call the function to render tasks when the page loads
-document.addEventListener("DOMContentLoaded", renderTasks);
+renderTasks();

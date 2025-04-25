@@ -52,10 +52,12 @@
 }
 
 .hidden-tasks{
-    /* transform: translateY(-10px);
-    opacity: 0;
-    height: 0;
-    overflow: hidden;
-    transition: all 0.3s ease; */
     display: none;
 }
+
+/* .hidden-tasks{
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+    max-height: 0;
+    opacity: 0;
+} */

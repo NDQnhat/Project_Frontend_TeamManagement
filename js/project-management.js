@@ -49,23 +49,23 @@ if (role !== "admin") {
 
 function createHeader() {
     let header = document.getElementById("header");
-    if (role === "admin") {
+    if (role === "admin" || role === "Project owner") {
         header.innerHTML = `<div class="container d-flex justify-content-between align-items-center">
             <div>
                 <h5 class="mb-0">Quản Lý Dự Án</h5>
             </div>
             <div>
-                <a href="#" class="text-white me-3 text-decoration-none">Dự Án</a>
+                <a href="../pages/project-management" class="text-white me-3 text-decoration-none">Dự Án</a>
                 <a href="#" class="text-white text-decoration-none" id="logOutBtn">Đăng Xuất</a>
             </div>
         </div>`;
-    } else if (role === "Project owner") {
+    } else {
         header.innerHTML = `<div class="container d-flex justify-content-between align-items-center">
             <div>
                 <h5 class="mb-0">Quản Lý Dự Án</h5>
             </div>
             <div>
-                <a href="#" class="text-white me-3 text-decoration-none">Dự Án</a>
+                <a href="../pages/personal-task.html" class="text-white me-3 text-decoration-none">Nhiệm Vụ của tôi</a>
                 <a href="#" class="text-white text-decoration-none" id="logOutBtn">Đăng Xuất</a>
             </div>
         </div>`;

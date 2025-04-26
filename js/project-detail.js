@@ -100,13 +100,12 @@ document.getElementById("projectDone").addEventListener("click", function () {
 renderTasks = () => {
     html = "";
     let members = currentProject.members || [];
-    let assignedPerson = members.find(member => member.id === task.assignedId);
 
     //tao. ham` lay' ra class mau` nen` cho tien' do.
     let getProgressClassStyle = (task) => {
         let progressClass = "";
         let progressText = task.progress.toLowerCase();
-        switch(progressText) {
+        switch (progressText) {
             case "đúng tiến độ": progressClass = "bg-success"; break;
             case "có rủi ro": progressClass = "bg-warning text-dark"; break;
             case "trễ hạn": progressClass = "bg-danger"; break;
@@ -119,14 +118,14 @@ renderTasks = () => {
     let getPriorityClassStyle = (task) => {
         let priorityClass = "";
         let priorityText = task.priority.toLowerCase();
-        switch(priorityText) {
+        switch (priorityText) {
             case "thấp": priorityClass = "bg-info"; break;
             case "trung bình": priorityClass = "bg-warning"; break;
             case "cao": priorityClass = "bg-danger"; break;
             default: priorityClass = "bg-secondary";
         }
         return priorityClass;
-    } 
+    }
 
     let todoTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "to do");
     let inProgressTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "in progress");
@@ -135,6 +134,7 @@ renderTasks = () => {
 
     let projectToDo = document.getElementById("projectToDo");
     todoTasks.forEach(task => {
+        let assignedPerson = members.find(member => member.id === task.assignedId);
         html += `
             <tr class="projectToDo">
                 <td class="border text-start">${task.taskName}</td>
@@ -155,6 +155,7 @@ renderTasks = () => {
     let projectInProgress = document.getElementById("projectInProgress");
     html = "";
     inProgressTasks.forEach(task => {
+        let assignedPerson = members.find(member => member.id === task.assignedId);
         html += `
             <tr class="projectInProgress">
                 <td class="border text-start">${task.taskName}</td>
@@ -175,6 +176,7 @@ renderTasks = () => {
     let projectPending = document.getElementById("projectPending");
     html = "";
     pendingTasks.forEach(task => {
+        let assignedPerson = members.find(member => member.id === task.assignedId);
         html += `
             <tr class="projectPending">
                 <td class="border text-start">${task.taskName}</td>
@@ -195,6 +197,7 @@ renderTasks = () => {
     let projectDone = document.getElementById("projectDone");
     html = "";
     doneTasks.forEach(task => {
+        let assignedPerson = members.find(member => member.id === task.assignedId);
         html += `
             <tr class="projectDone">
                 <td class="border text-start">${task.taskName}</td>
@@ -213,3 +216,38 @@ renderTasks = () => {
     projectDone.insertAdjacentHTML("afterend", html);
 };
 renderTasks();
+
+let isEditing = true;
+
+// tao. ham` handle de? loai. bo? nhieu` event listener
+function handleSaveButton(event) {
+    document.getElementById("saveAddOrEdit").removeAttribute("data-bs-dismiss");
+
+    let mistake = document.getElementById("printMistakeTask");
+    let taskName = document.getElementById("project-name-add").value;
+    let responsiblePerson = document.getElementById("responsiblePerson").value;
+    let statusQuest = document.getElementById("statusQuest").value;
+    let dateStart = document.getElementById("date-start").value;
+    let dateEnd = document.getElementById("date-end").value;
+    let priority = document.getElementById("priority").value;
+    let progress = document.getElementById("progress").value;
+
+    console.log(currentProject);
+    let isTaskExisted = currentProject.tasks.some(task => task === taskName || taskName === "");
+
+    if (isTaskExisted) {
+        mistake.innerHTML = "Tên nhiệm vụ đã tồn tại!!";
+    } else {
+        document.getElementById("saveAddOrEdit").setAttribute("data-bs-dismiss", "modal");
+        document.getElementById("saveAddOrEdit").click();
+    }
+}
+document.getElementById("addQuestBtn").addEventListener("click", () => {
+    let mistake = document.getElementById("printMistakeTask");
+    mistake.innerHTML = "";
+    isEditing = false;
+    document.getElementById("saveAddOrEdit").removeAttribute("data-bs-dismiss");
+
+    document.getElementById("saveAddOrEdit").removeEventListener("click", handleSaveButton);
+    document.getElementById("saveAddOrEdit").addEventListener("click", handleSaveButton);
+});

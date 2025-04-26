@@ -6,6 +6,7 @@ let currentProject = allProjects.find(project => project.id === currentProjectId
 let html = "";
 let role = JSON.parse(sessionStorage.getItem("isLogIn")) || "";
 let userLogIn = JSON.parse(sessionStorage.getItem("userLogIn")) || "";
+// let emailUser = JSON.parse(sessionStorage.getItem("isLogin")) || "";
 
 if (role !== "admin") {
     let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
@@ -77,9 +78,9 @@ document.getElementById("projectDone").addEventListener("click", function () {
         let tasks = [];
         let task = { id: 1, taskName: "Soạn thảo đề cương dự án", assignedId: 1, assignedDate: "2025-02-24", dueDate: "2025-02-27", priority: "Thấp", progress: "Đúng tiến độ", status: "To do" };
         tasks.push(task);
-        task = { id: 2, taskName: "Soạn thảo đề cương dự án", assignedId: 2, assignedDate: "2025-02-24", dueDate: "2025-02-27", priority: "Trung bình", progress: "Có rủi ro", status: "To do" };
+        task = { id: 2, taskName: "Soạn thảo đề cương dự án", assignedId: 1, assignedDate: "2025-02-24", dueDate: "2025-02-27", priority: "Trung bình", progress: "Có rủi ro", status: "To do" };
         tasks.push(task);
-        task = { id: 3, taskName: "Soạn thảo đề cương dự án", assignedId: 3, assignedDate: "2025-02-24", dueDate: "2025-02-27", priority: "Cao", progress: "Trễ hạn", status: "To do" };
+        task = { id: 3, taskName: "Soạn thảo đề cương dự án", assignedId: 1, assignedDate: "2025-02-24", dueDate: "2025-02-27", priority: "Cao", progress: "Trễ hạn", status: "To do" };
         tasks.push(task);
 
         let currentProjectIndex = allProjects.findIndex(p => p.id === +(currentProjectId));
@@ -87,7 +88,7 @@ document.getElementById("projectDone").addEventListener("click", function () {
             allProjects[currentProjectIndex].tasks = tasks;
 
             tasks = [];
-            let task4 = { id: 4, taskName: "Lên lịch họp kickoff", assignedId: 4, assignedDate: "2025-02-24", dueDate: "2025-02-27", priority: "Trung bình", progress: "Có rủi ro", status: "In Progress" };
+            let task4 = { id: 4, taskName: "Lên lịch họp kickoff", assignedId: 1, assignedDate: "2025-02-24", dueDate: "2025-02-27", priority: "Trung bình", progress: "Có rủi ro", status: "In Progress" };
             tasks.push(task4);
             allProjects[currentProjectIndex].tasks = allProjects[currentProjectIndex].tasks.concat(tasks);
 
@@ -100,6 +101,12 @@ document.getElementById("projectDone").addEventListener("click", function () {
 renderTasks = () => {
     html = "";
     let members = currentProject.members || [];
+
+    //dung` cach' nay` nen moi~ lan` lay' ra phair reset lai. du~ lieu. trong table khong se~ gap' doi DL moi~ lan` goi.
+    document.querySelectorAll(".projectToDo").forEach(element => element.remove());
+    document.querySelectorAll(".projectInProgress").forEach(element => element.remove());
+    document.querySelectorAll(".projectPending").forEach(element => element.remove());
+    document.querySelectorAll(".projectDone").forEach(element => element.remove());
 
     //tao. ham` lay' ra class mau` nen` cho tien' do.
     let getProgressClassStyle = (task) => {
@@ -135,10 +142,12 @@ renderTasks = () => {
     let projectToDo = document.getElementById("projectToDo");
     todoTasks.forEach(task => {
         let assignedPerson = members.find(member => member.id === task.assignedId);
+        // <td class="border">${findUserName(assignedPerson.userId)}</td>
+        // <td class="border">${assignedPerson}</td>
         html += `
             <tr class="projectToDo">
                 <td class="border text-start">${task.taskName}</td>
-                <td class="border">${assignedPerson}</td>
+                <td class="border">${assignedPerson ? findUserName(assignedPerson.userId) : 'undefined'}</td>
                 <td class="border"><span class="badge status-badge ${getPriorityClassStyle(task)}">${task.priority}</span></td>
                 <td class="border date-column">${task.assignedDate}</td>
                 <td class="border date-column">${task.dueDate}</td>
@@ -225,7 +234,7 @@ function handleSaveButton(event) {
 
     let mistake = document.getElementById("printMistakeTask");
     let taskName = document.getElementById("project-name-add").value;
-    let responsiblePerson = document.getElementById("responsiblePerson").value;
+    let inChargePers = document.getElementById("inChargePers").value;
     let statusQuest = document.getElementById("statusQuest").value;
     let dateStart = document.getElementById("date-start").value;
     let dateEnd = document.getElementById("date-end").value;
@@ -233,11 +242,18 @@ function handleSaveButton(event) {
     let progress = document.getElementById("progress").value;
 
     console.log(currentProject);
-    let isTaskExisted = currentProject.tasks.some(task => task === taskName || taskName === "");
+    let isTaskExisted = currentProject.tasks.some(task => task.taskName === taskName || taskName === "");
 
     if (isTaskExisted) {
         mistake.innerHTML = "Tên nhiệm vụ đã tồn tại!!";
     } else {
+        let idProject = currentProject.tasks.length + 1;
+        let idAssign = findUserId(inChargePers);
+        currentProject.tasks.push({ id: idProject, taskName: taskName, assignedId: idAssign, assignedDate: dateStart, dueDate: dateEnd, priority: priority, progress: progress, status: statusQuest });
+        renderTasks();
+        localStorage.setItem("allProjects", JSON.stringify(allProjects));
+
+        //dieu` chinh? khi nao` lu se~ dong'
         document.getElementById("saveAddOrEdit").setAttribute("data-bs-dismiss", "modal");
         document.getElementById("saveAddOrEdit").click();
     }
@@ -251,3 +267,31 @@ document.getElementById("addQuestBtn").addEventListener("click", () => {
     document.getElementById("saveAddOrEdit").removeEventListener("click", handleSaveButton);
     document.getElementById("saveAddOrEdit").addEventListener("click", handleSaveButton);
 });
+
+console.log(currentProject);
+
+updateInChargePers = function() {
+    html = "";
+    html += `<option value="#" disabled selected>Chọn người phụ trách</option>`;
+    // let inChargePers = document.getElementById("inChargePers");
+    currentProject.members.forEach(mem => {
+        html += `
+            <option value="${findUserName(mem.userId)}">${findUserName(mem.userId)}</option>
+        `;
+    });
+    document.getElementById("inChargePers").innerHTML = html;
+}
+
+let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+function findUserName(id) {
+    let userFound = accounts.find(account => account.id === id);
+    // if(userFound) {
+    //     let userName = userFound.fullname;
+    // }
+    return userFound ? userFound.fullname : "No One";
+}
+
+function findUserId(name) {
+    let userFound = accounts.find(account => account.fullname === name);
+    return userFound ? userFound.id : undefined;
+}

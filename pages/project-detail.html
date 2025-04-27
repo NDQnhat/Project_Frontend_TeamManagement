@@ -24,38 +24,12 @@
             <div class="member-section w-38">
                 <div class="d-flex justify-content-between mb-3">
                     <h5>Thành viên</h5>
-                    <button class="btn btn-outline-secondary btn-sm" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMember">
+                    <button class="btn btn-outline-secondary btn-sm" type="button" id="addMemberBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMember">
                         <i class="fas fa-plus me-1"></i> Thêm thành viên
                     </button>
                 </div>
                 
-                <div class="member-list">
-                    <div class="mb-2 me-2 p-2">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="member-info">
-                                <div class="member-avatar avatar-an">AN</div>
-                                <div>
-                                    <div>An Nguyễn</div>
-                                    <small class="text-muted">Project owner</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-2 me-2 p-2">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="member-info">
-                                <div class="member-avatar avatar-bach">BA</div>
-                                <div>
-                                    <div>Bách Nguyễn</div>
-                                    <small class="text-muted">Frontend developer</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <img src="../assets/icon/More.png" alt="more" data-bs-toggle="modal" data-bs-target="#detailMember">
-                </div>
+                <div class="member-list" id="member-list"></div>
             </div>
         </div>
         
@@ -64,7 +38,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5>Danh Sách Nhiệm Vụ</h5>
                     <div class="d-flex align-items-center gap-3 w-38">
-                        <select class="form-select" aria-label="Default select example">
+                        <select class="form-select" aria-label="Default select example" id="sortTask" onchange="sortTask()">
                             <option disabled selected>Sắp xếp theo</option>
                             <option value="progess">Tiến độ</option>
                             <option value="date-start">Ngày bắt đầu</option>
@@ -72,7 +46,7 @@
                             <option value="prioritize">Ưu tiên</option>
                           </select>
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Tìm kiếm nhiệm vụ" aria-label="Tìm kiếm nhiệm vụ">
+                            <input type="text" class="form-control" id="searchTaskInput" onchange="searchTask()" placeholder="Tìm kiếm nhiệm vụ" aria-label="Tìm kiếm nhiệm vụ">
                         </div>
                     </div>
                 </div>
@@ -158,16 +132,16 @@
                     <p id="printMistakeTask" class="text-danger fs-mistake my-2"></p>
                     <label for="inChargePers">Người phụ trách</label>
                     <select name="" id="inChargePers" class="form-control form-select">
-                        <option value="#" disabled selected>Chọn người phụ trách</option>
+                        <!-- <option value="#" disabled selected>Chọn người phụ trách</option>
                         <option value="An Nguyễn">An Nguyễn</option>
                         <option value="Bách Nguyễn">Bách Nguyễn</option>
-                        <option value="Dương Nguyễn">Dương Nguyễn</option>
+                        <option value="Dương Nguyễn">Dương Nguyễn</option> -->
                     </select>
                     <label for="statusQuest" class="mt-3">Trạng thái</label>
                     <select name="" id="statusQuest" class="form-control form-select">
                         <option value="#" disabled selected>Chọn Trạng thái nhiệm vụ</option>
-                        <option value="Todo">To Do</option>
-                        <option value="inProgress">In Progress</option>
+                        <option value="To Do">To Do</option>
+                        <option value="In Progress">In Progress</option>
                         <option value="Pending">Pending</option>
                         <option value="Done">Done</option>
                     </select>
@@ -178,14 +152,14 @@
                     <label for="priority" class="mt-3">Độ ưu tiên</label>
                     <select name="" id="priority" class="form-control form-select">
                         <option value="#" disabled selected>Chọn độ ưu tiên</option>
-                        <option value="low">Thấp</option>
-                        <option value="normal">Trung bình</option>
-                        <option value="high">Cao</option>
+                        <option value="Thấp">Thấp</option>
+                        <option value="Trung bình">Trung bình</option>
+                        <option value="Cao">Cao</option>
                     </select>
                     <label for="progress" class="mt-3">Tiến độ</label>
                     <select name="" id="progress" class="form-control form-select">
                         <option value="#" disabled selected>Chọn tiến độ</option>
-                        <option value="Đúng tién độ">Đúng tién độ</option>
+                        <option value="Đúng tiến độ">Đúng tiến độ</option>
                         <option value="Có rủi ro">Có rủi ro</option>
                         <option value="Trễ hạn">Trễ hạn</option>
                     </select>
@@ -211,13 +185,13 @@
             <div class="modal-body">
                 <label for="email">Email</label>
                 <input type="email" id="member-email-add" class="form-control">
-                <p id="printMistakeMember" class="text-danger fs-mistake my-2">Thành viên đã tồn tại</p>
+                <p id="printMistakeMember" class="text-danger fs-mistake my-2"></p>
                 <label for="role">Vai trò</label>
                 <input type="text" id="member-role-add" class="form-control">
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy </button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Lưu</button>
+            <button type="button" id="saveAddMemberBtn" class="btn btn-primary" data-bs-dismiss="modal">Lưu</button>
             </div>
         </div>
         </div>
@@ -232,54 +206,7 @@
             <h1 class="modal-title fs-5" id="detailMemberLabel">Thêm thành viên</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col">
-                        <p class="text-center">Thành viên</p>   
-                    </div>
-                    <div class="col">
-                        <p class="text-center">Vai trò</p>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col">
-                        <div class="mb-2 me-2 p-2">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="member-info">
-                                    <div class="member-avatar avatar-an">AN</div>
-                                    <div>
-                                        <div>An Nguyễn</div>
-                                        <small class="text-muted">nguyenquangan@gmail.com</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-2 me-2 p-2 d-flex justify-content-end align-items-center gap-2">
-                        <div class="card">Project owner</div><i class="fa-solid fa-trash-can-slash"></i>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col">
-                        <div class="mb-2 me-2 p-2">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="member-info">
-                                    <div class="member-avatar avatar-bach">BA</div>
-                                    <div>
-                                        <div>Bách Nguyễn</div>
-                                        <small class="text-muted">bachnx@gmail.com</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-2 me-2  d-flex justify-content-end align-items-center gap-2">
-                        <div class="card">Frontend developer</div><i class="fa-solid fa-trash-can-slash"></i>
-                    </div>
-                </div>
-            </div>
+            <div class="modal-body" id="detailAllMember"></div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy </button>
             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Lưu</button>
@@ -302,7 +229,7 @@
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy </button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Lưu</button>
+                <button type="button" id="confirmDelBtn" class="btn btn-primary" data-bs-dismiss="modal">Lưu</button>
                 </div>
             </div>
             </div>

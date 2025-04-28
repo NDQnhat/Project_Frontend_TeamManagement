@@ -208,6 +208,7 @@ function searchProject() {
     let filterProject = allProjects.filter(project => project.projectName.toLowerCase().includes(input));
 
     renderProject(filterProject);
+    // changePage(1);
 }
 
 //khi nhan' vao` chi tiet
@@ -219,4 +220,78 @@ document.getElementById("table-body").addEventListener("click", function(e) {
         sessionStorage.setItem("idProjectDetail", JSON.stringify(id));
         location.href = './project-detail.html';
     }
-})
+});
+
+//==================================================
+//pagination page
+var currentPage = 1;
+var itemsPerPage = 5;
+function divideArray(array, pageSize) {
+    let result = [];
+    for (let i = 0; i < array.length; i += pageSize) {
+        result.push(array.slice(i, i + pageSize));
+    }
+    return result;
+};
+
+let totalPages = 0;
+
+function renderPagination(array) {
+    let pages = divideArray(array, itemsPerPage);
+    totalPages = pages.length;
+    let pagination = document.getElementById("pagination");
+    pagination.innerHTML = "";
+
+    html = `<li class="page-item" id="prevPage">
+                <a class="page-link" href="#" onclick="changePage(currentPage - 1)">&laquo;</a>
+            </li>`;
+    pages.forEach((_, index) => {
+        html += `<li class="page-item ${index === 0 ? "active" : ""}">
+                    <a class="page-link" href="#" onclick="changePage(${index + 1})">${index + 1}</a>
+                 </li>`;
+    });
+    html += `<li class="page-item" id="nextPage">
+                <a class="page-link" href="#" onclick="changePage(currentPage + 1)">&raquo;</a>
+             </li>`;
+    pagination.innerHTML = html;
+
+    document.getElementById("prevPage").classList.add("disabled");
+    if (totalPages <= 1) {
+        document.getElementById("nextPage").classList.add("disabled");
+    }
+}
+renderPagination(allProjects);
+changePage(1);
+
+function changePage(page) {
+    if (page < 1 || page > totalPages) return; 
+
+    currentPage = page;
+    renderProject(divideArray(allProjects, itemsPerPage)[page - 1]);
+
+    let paginationItems = document.querySelectorAll(".page-item");
+    paginationItems.forEach(item => item.classList.remove("active"));
+    paginationItems[page].classList.add("active");
+
+    document.getElementById("prevPage").classList.toggle("disabled", page === 1);
+    document.getElementById("nextPage").classList.toggle("disabled", page === totalPages);
+}
+
+// function 
+
+
+
+
+
+
+
+
+
+
+document.getElementById("logOutBtn").addEventListener("click", function () {
+    sessionStorage.removeItem("userLogIn");
+    sessionStorage.removeItem("idProjectDetail");
+    sessionStorage.removeItem("isLogIn");
+
+    location.href = '../pages/login.html';
+});

@@ -30,13 +30,24 @@ if (role !== "admin") {
 
 function createHeader() {
     let header = document.getElementById("header");
-    if (role === "admin" || role === "Project owner") {
+    if (role === "admin") {
         header.innerHTML = `<div class="container d-flex justify-content-between align-items-center">
             <div>
                 <h5 class="mb-0">Quản Lý Dự Án</h5>
             </div>
             <div>
                 <a href="../pages/project-management" class="text-white me-3 text-decoration-none">Dự Án</a>
+                <a href="#" class="text-white text-decoration-none" id="logOutBtn">Đăng Xuất</a>
+            </div>
+        </div>`;
+    } else if(role === "Project owner") {
+        header.innerHTML = `<div class="container d-flex justify-content-between align-items-center">
+            <div>
+                <h5 class="mb-0">Quản Lý Dự Án</h5>
+            </div>
+            <div>
+                <a href="../pages/project-management" class="text-white me-3 text-decoration-none">Dự Án</a>
+                <a href="../pages/personal-task.html" class="text-white me-3 text-decoration-none">Nhiệm Vụ của tôi</a>
                 <a href="#" class="text-white text-decoration-none" id="logOutBtn">Đăng Xuất</a>
             </div>
         </div>`;
@@ -334,17 +345,19 @@ document.getElementById("addQuestBtn").addEventListener("click", () => {
 
 console.log(currentProject);
 
+
 updateInChargePers = function () {
     html = "";
     html += `<option value="#" disabled selected>Chọn người phụ trách</option>`;
-    // let inChargePers = document.getElementById("inChargePers");
     currentProject.members.forEach(mem => {
-        html += `
-            <option value="${findUserName(mem.userId)}">${findUserName(mem.userId)}</option>
-        `;
+        let userName = findUserName(mem.userId);
+        // if (userName === "Undefined Member") {
+        //     console.warn(`Không tìm thấy thành viên với ID: ${mem.userId}`);
+        // }
+        html += `<option value="${userName}">${userName}</option>`;
     });
     document.getElementById("inChargePers").innerHTML = html;
-}
+};
 
 function findUserName(id) {
     let userFound = accounts.find(account => account.id === id);
@@ -418,6 +431,13 @@ document.getElementById("addMemberBtn").addEventListener("click", function () {
     document.getElementById("member-role-add").value = "";
     let mistake = document.getElementById("printMistakeMember");
     mistake.innerHTML = "";
+
+    html = "";
+    html += `<option value="#" disabled selected>Chọn email</option>`;
+    accounts.forEach(account => {
+        html += `<option value="${account.email}">${account.email}</option>`;
+    });
+    document.getElementById("member-email-add").innerHTML = html;
 
     document.getElementById("saveAddMemberBtn").removeAttribute("data-bs-dismiss");
     document.getElementById("saveAddMemberBtn").removeEventListener("click", addEmployee);
@@ -495,6 +515,8 @@ document.getElementById("table-body").addEventListener("click", function (event)
 
 //reset form 
 document.getElementById("addQuestBtn").addEventListener("click", function () {
+    updateInChargePers();
+
     document.getElementById("project-name-add").value = "";
     document.getElementById("printMistakeTask").innerHTML = "";
     document.getElementById("inChargePers").value = "";
@@ -508,13 +530,15 @@ document.getElementById("addQuestBtn").addEventListener("click", function () {
 // Sua? task
 document.getElementById("table-body").addEventListener("click", function (event) {
     if (event.target.classList.contains("edit-btn")) {
+        isEditing = true;
         let taskId = +(event.target.getAttribute("data-id"));
         let task = currentProject.tasks.find(t => t.id === taskId);
 
         if (task) {
             isEditing = true;
+            updateInChargePers();
 
-            // Điền thông tin vào form
+            // set up thong tin task hien. tai. cho form
             document.getElementById("project-name-add").value = task.taskName;
             document.getElementById("inChargePers").value = findUserName(task.assignedId);
             document.getElementById("statusQuest").value = task.status;
@@ -569,12 +593,6 @@ function sortTask() {
     }
     renderTasks();
 }
-
-
-
-
-
-
 
 document.getElementById("logOutBtn").addEventListener("click", function () {
     sessionStorage.removeItem("userLogIn");

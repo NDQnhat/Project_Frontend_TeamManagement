@@ -36,17 +36,17 @@ function createHeader() {
                 <h5 class="mb-0">Quản Lý Dự Án</h5>
             </div>
             <div>
-                <a href="../pages/project-management" class="text-white me-3 text-decoration-none">Dự Án</a>
+                <a href="../pages/project-management.html" class="text-white me-3 text-decoration-none">Dự Án</a>
                 <a href="#" class="text-white text-decoration-none" id="logOutBtn">Đăng Xuất</a>
             </div>
         </div>`;
-    } else if(role === "Project owner") {
+    } else if (role === "Project owner") {
         header.innerHTML = `<div class="container d-flex justify-content-between align-items-center">
             <div>
                 <h5 class="mb-0">Quản Lý Dự Án</h5>
             </div>
             <div>
-                <a href="../pages/project-management" class="text-white me-3 text-decoration-none">Dự Án</a>
+                <a href="../pages/project-management.html" class="text-white me-3 text-decoration-none">Dự Án</a>
                 <a href="../pages/personal-task.html" class="text-white me-3 text-decoration-none">Nhiệm Vụ của tôi</a>
                 <a href="#" class="text-white text-decoration-none" id="logOutBtn">Đăng Xuất</a>
             </div>
@@ -76,21 +76,49 @@ document.getElementById("projectToDo").addEventListener("click", function (event
     // document.querySelectorAll(".projectToDo").classList.toggle("hidden-tasks"); tra? ve` 1 list nen phai? dung` vong` lap.
     document.querySelectorAll(".projectToDo").forEach(function (element) {
         element.classList.toggle("hidden-tasks");
+
+        let icon = event.target.querySelector(".collapse-icon");
+        if (icon.textContent === "▼") {
+            icon.textContent = "▶";
+        } else {
+            icon.textContent = "▼";
+        }
     });
 });
-document.getElementById("projectInProgress").addEventListener("click", function () {
+document.getElementById("projectInProgress").addEventListener("click", function (event) {
     document.querySelectorAll(".projectInProgress").forEach(function (element) {
         element.classList.toggle("hidden-tasks");
+        
+        let icon = event.target.querySelector(".collapse-icon");
+        if (icon.textContent === "▼") {
+            icon.textContent = "▶";
+        } else {
+            icon.textContent = "▼";
+        }
     });
 });
-document.getElementById("projectPending").addEventListener("click", function () {
+document.getElementById("projectPending").addEventListener("click", function (event) {
     document.querySelectorAll(".projectPending").forEach(function (element) {
         element.classList.toggle("hidden-tasks");
+
+        let icon = event.target.querySelector(".collapse-icon");
+        if (icon.textContent === "▼") {
+            icon.textContent = "▶";
+        } else {
+            icon.textContent = "▼";
+        }
     });
 });
-document.getElementById("projectDone").addEventListener("click", function () {
+document.getElementById("projectDone").addEventListener("click", function (event) {
     document.querySelectorAll(".projectDone").forEach(function (element) {
         element.classList.toggle("hidden-tasks");
+
+        let icon = event.target.querySelector(".collapse-icon");
+        if (icon.textContent === "▼") {
+            icon.textContent = "▶";
+        } else {
+            icon.textContent = "▼";
+        }
     });
 });
 
@@ -119,6 +147,8 @@ document.getElementById("projectDone").addEventListener("click", function () {
 //         }
 //     }
 // })();     
+
+currentProject.tasks ? currentProject.tasks :  [];
 
 
 renderTasks = () => {
@@ -157,102 +187,112 @@ renderTasks = () => {
         return priorityClass;
     }
 
-    let todoTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "to do");
-    let inProgressTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "in progress");
-    let pendingTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "pending");
-    let doneTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "done");
-
-    let projectToDo = document.getElementById("projectToDo");
-    todoTasks.forEach(task => {
-        let assignedPerson = members.find(member => member.id === task.assignedId);
-        // <td class="border">${findUserName(assignedPerson.userId)}</td>
-        // <td class="border">${assignedPerson}</td>
-        html += `
-            <tr class="projectToDo">
-                <td class="border text-start">${task.taskName}</td>
-                <td class="border">${assignedPerson ? findUserName(assignedPerson.userId) : 'undefined'}</td>
-                <td class="border"><span class="badge status-badge ${getPriorityClassStyle(task)}">${task.priority}</span></td>
-                <td class="border date-column">${task.assignedDate}</td>
-                <td class="border date-column">${task.dueDate}</td>
-                <td class="border"><span class="badge ${getProgressClassStyle(task)}">${task.progress}</span></td>
-                <td class="border">
-                    <button class="btn btn-warning btn-sm edit-btn action-btn" data-id="${task.id}"  data-bs-toggle="modal" data-bs-target="#addQuest">Sửa</button>
-                    <button data-id="${task.id}" class="btn btn-danger btn-sm action-btn del-btn" data-bs-toggle="modal" data-bs-target="#confirmDel">Xóa</button>
-                </td>
-            </tr>
-        `;
-    });
-    projectToDo.insertAdjacentHTML("afterend", html);
-
-    let projectInProgress = document.getElementById("projectInProgress");
-    html = "";
-    inProgressTasks.forEach(task => {
-        let assignedPerson = members.find(member => member.id === task.assignedId);
-        html += `
-            <tr class="projectInProgress">
-                <td class="border text-start">${task.taskName}</td>
-                <td class="border">${assignedPerson ? findUserName(assignedPerson.userId) : 'undefined'}</td>
-                <td class="border"><span class="badge status-badge ${getPriorityClassStyle(task)}">${task.priority}</span></td>
-                <td class="border date-column">${task.assignedDate}</td>
-                <td class="border date-column">${task.dueDate}</td>
-                <td class="border"><span class="badge ${getProgressClassStyle(task)}">${task.progress}</span></td>
-                <td class="border">
-                    <button class="btn btn-warning btn-sm edit-btn action-btn" data-id="${task.id}"  data-bs-toggle="modal" data-bs-target="#addQuest">Sửa</button>
-                    <button data-id="${task.id}" class="btn btn-danger btn-sm action-btn del-btn" data-bs-toggle="modal" data-bs-target="#confirmDel">Xóa</button>
-                </td>
-            </tr>
-        `;
-    });
-    projectInProgress.insertAdjacentHTML("afterend", html);
-
-    let projectPending = document.getElementById("projectPending");
-    html = "";
-    pendingTasks.forEach(task => {
-        let assignedPerson = members.find(member => member.id === task.assignedId);
-        html += `
-            <tr class="projectPending">
-                <td class="border text-start">${task.taskName}</td>
-                <td class="border">${assignedPerson ? findUserName(assignedPerson.userId) : 'undefined'}</td>
-                <td class="border"><span class="badge status-badge ${getPriorityClassStyle(task)}">${task.priority}</span></td>
-                <td class="border date-column">${task.assignedDate}</td>
-                <td class="border date-column">${task.dueDate}</td>
-                <td class="border"><span class="badge ${getProgressClassStyle(task)}">${task.progress}</span></td>
-                <td class="border">
-                    <button class="btn btn-warning edit-btn btn-sm action-btn" data-id="${task.id}"  data-bs-toggle="modal" data-bs-target="#addQuest">Sửa</button>
-                    <button data-id="${task.id}" class="btn btn-danger btn-sm action-btn del-btn" data-bs-toggle="modal" data-bs-target="#confirmDel">Xóa</button>
-                </td>
-            </tr>
-        `;
-    });
-    projectPending.insertAdjacentHTML("afterend", html);
-
-    let projectDone = document.getElementById("projectDone");
-    html = "";
-    doneTasks.forEach(task => {
-        let assignedPerson = members.find(member => member.id === task.assignedId);
-        html += `
-            <tr class="projectDone">
-                <td class="border text-start">${task.taskName}</td>
-                <td class="border">${assignedPerson ? findUserName(assignedPerson.userId) : 'undefined'}</td>
-                <td class="border"><span class="badge status-badge ${getPriorityClassStyle(task)}">${task.priority}</span></td>
-                <td class="border date-column">${task.assignedDate}</td>
-                <td class="border date-column">${task.dueDate}</td>
-                <td class="border"><span class="badge ${getProgressClassStyle(task)}">${task.progress}</span></td>
-                <td class="border">
-                    <button class="btn btn-warning edit-btn btn-sm action-btn" data-id="${task.id}"  data-bs-toggle="modal" data-bs-target="#addQuest">Sửa</button>
-                    <button data-id="${task.id}" class="btn btn-danger btn-sm action-btn del-btn" data-bs-toggle="modal" data-bs-target="#confirmDel">Xóa</button>
-                </td>
-            </tr>
-        `;
-    });
-    projectDone.insertAdjacentHTML("afterend", html);
+    console.log("currentProject.tasks", currentProject.tasks);
+    
+    if(currentProject.tasks.length === 0) {
+        html += `<tr>
+                    <td colspan="6" class="text-center">Không có nhiệm vụ nào</td>
+                </tr>`;
+    } else {
+        let todoTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "to do");
+        let inProgressTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "in progress");
+        let pendingTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "pending");
+        let doneTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "done");
+    
+        let projectToDo = document.getElementById("projectToDo");
+        todoTasks.forEach(task => {
+            let assignedPerson = currentProject.members.find(member => member.userId === task.assignedId);
+            // <td class="border">${findUserName(assignedPerson.userId)}</td>
+            // <td class="border">${assignedPerson}</td>
+            console.log("assignedPerson", assignedPerson);
+            html += `
+                <tr class="projectToDo">
+                    <td class="border text-start">${task.taskName}</td>
+                    <td class="border">${assignedPerson ? findUserName(assignedPerson.userId) : 'undefined'}</td>   
+                    <td class="border"><span class="badge status-badge ${getPriorityClassStyle(task)}">${task.priority}</span></td>
+                    <td class="border date-column">${task.assignedDate}</td>
+                    <td class="border date-column">${task.dueDate}</td>
+                    <td class="border"><span class="badge ${getProgressClassStyle(task)}">${task.progress}</span></td>
+                    <td class="border">
+                        <button class="btn btn-warning btn-sm edit-btn action-btn" data-id="${task.id}"  data-bs-toggle="modal" data-bs-target="#addQuest">Sửa</button>
+                        <button data-id="${task.id}" class="btn btn-danger btn-sm action-btn del-btn" data-bs-toggle="modal" data-bs-target="#confirmDel">Xóa</button>
+                    </td>
+                </tr>
+            `;
+        });
+        projectToDo.insertAdjacentHTML("afterend", html);
+    
+        let projectInProgress = document.getElementById("projectInProgress");
+        html = "";
+        inProgressTasks.forEach(task => {
+            let assignedPerson = currentProject.members.find(member => member.userId === task.assignedId);
+            html += `
+                <tr class="projectInProgress">
+                    <td class="border text-start">${task.taskName}</td>
+                    <td class="border">${assignedPerson ? findUserName(assignedPerson.userId) : 'undefined'}</td>
+                    <td class="border"><span class="badge status-badge ${getPriorityClassStyle(task)}">${task.priority}</span></td>
+                    <td class="border date-column">${task.assignedDate}</td>
+                    <td class="border date-column">${task.dueDate}</td>
+                    <td class="border"><span class="badge ${getProgressClassStyle(task)}">${task.progress}</span></td>
+                    <td class="border">
+                        <button class="btn btn-warning btn-sm edit-btn action-btn" data-id="${task.id}"  data-bs-toggle="modal" data-bs-target="#addQuest">Sửa</button>
+                        <button data-id="${task.id}" class="btn btn-danger btn-sm action-btn del-btn" data-bs-toggle="modal" data-bs-target="#confirmDel">Xóa</button>
+                    </td>
+                </tr>
+            `;
+        });
+        projectInProgress.insertAdjacentHTML("afterend", html);
+    
+        let projectPending = document.getElementById("projectPending");
+        html = "";
+        pendingTasks.forEach(task => {
+            let assignedPerson = currentProject.members.find(member => member.userId === task.assignedId);
+            html += `
+                <tr class="projectPending">
+                    <td class="border text-start">${task.taskName}</td>
+                    <td class="border">${assignedPerson ? findUserName(assignedPerson.userId) : 'undefined'}</td>
+                    <td class="border"><span class="badge status-badge ${getPriorityClassStyle(task)}">${task.priority}</span></td>
+                    <td class="border date-column">${task.assignedDate}</td>
+                    <td class="border date-column">${task.dueDate}</td>
+                    <td class="border"><span class="badge ${getProgressClassStyle(task)}">${task.progress}</span></td>
+                    <td class="border">
+                        <button class="btn btn-warning edit-btn btn-sm action-btn" data-id="${task.id}"  data-bs-toggle="modal" data-bs-target="#addQuest">Sửa</button>
+                        <button data-id="${task.id}" class="btn btn-danger btn-sm action-btn del-btn" data-bs-toggle="modal" data-bs-target="#confirmDel">Xóa</button>
+                    </td>
+                </tr>
+            `;
+        });
+        projectPending.insertAdjacentHTML("afterend", html);
+    
+        let projectDone = document.getElementById("projectDone");
+        html = "";
+        doneTasks.forEach(task => {
+            let assignedPerson = currentProject.members.find(member => member.userId === task.assignedId);
+            html += `
+                <tr class="projectDone">
+                    <td class="border text-start">${task.taskName}</td>
+                    <td class="border">${assignedPerson ? findUserName(assignedPerson.userId) : 'undefined'}</td>
+                    <td class="border"><span class="badge status-badge ${getPriorityClassStyle(task)}">${task.priority}</span></td>
+                    <td class="border date-column">${task.assignedDate}</td>
+                    <td class="border date-column">${task.dueDate}</td>
+                    <td class="border"><span class="badge ${getProgressClassStyle(task)}">${task.progress}</span></td>
+                    <td class="border">
+                        <button class="btn btn-warning edit-btn btn-sm action-btn" data-id="${task.id}"  data-bs-toggle="modal" data-bs-target="#addQuest">Sửa</button>
+                        <button data-id="${task.id}" class="btn btn-danger btn-sm action-btn del-btn" data-bs-toggle="modal" data-bs-target="#confirmDel">Xóa</button>
+                    </td>
+                </tr>
+            `;
+        });
+        projectDone.insertAdjacentHTML("afterend", html);
+    }
 };
 renderTasks();
 
-let isEditing = true;
+let isEditing = false;
+let editingProjectId = null;
 
 // tao. ham` handle de? loai. bo? nhieu` event listener
-function handleSaveButton(event) {
+function handleSaveButton() {
     document.getElementById("saveAddOrEdit").removeAttribute("data-bs-dismiss");
 
     let mistake = document.getElementById("printMistakeTask");
@@ -306,14 +346,51 @@ function handleSaveButton(event) {
 
     let isTaskExisted = currentProject.tasks.some(task => task.taskName === taskName);
 
-    if (isTaskExisted) {
+    if (isTaskExisted && !isEditing) {
         mistake.innerHTML = "Tên nhiệm vụ đã tồn tại!!";
+        return;
+    }
+
+    if (isEditing) {
+        // let taskIndex = currentProject.tasks.findIndex(task => task.taskName === taskName);
+        let found = currentProject.tasks.find(task => task.id === editingProjectId);
+        if (found) {
+            let isTaskExisted = currentProject.tasks.some(task =>
+                task.taskName === taskName && task.id !== editingProjectId
+            );
+
+            if (isTaskExisted) {
+                mistake.innerHTML = "Tên nhiệm vụ đã tồn tại!!";
+                return;
+            }
+
+            found.taskName = taskName;
+            found.assignedId = findUserId(inChargePers);
+            found.assignedDate = dateStart;
+            found.dueDate = dateEnd;
+            found.priority = priority;
+            found.progress = progress;
+            found.status = statusQuest;
+
+            renderTasks();
+            // console.log(allProjects);
+
+            localStorage.setItem("allProjects", JSON.stringify(allProjects));
+            document.getElementById("saveAddOrEdit").setAttribute("data-bs-dismiss", "modal");
+            document.getElementById("saveAddOrEdit").click();
+        }
     } else {
+        let isTaskExisted = currentProject.tasks.some(task => task.taskName === taskName);
+        if (isTaskExisted) {
+            mistake.innerHTML = "Tên nhiệm vụ đã tồn tại!!";
+            return;
+        }
+
         let idProject = createIdTask();
         let idAssign = findUserId(inChargePers);
         currentProject.tasks.push({ id: idProject, taskName: taskName, assignedId: idAssign, assignedDate: dateStart, dueDate: dateEnd, priority: priority, progress: progress, status: statusQuest });
         renderTasks();
-        console.log(allProjects);
+        // console.log(allProjects);
 
         localStorage.setItem("allProjects", JSON.stringify(allProjects));
 
@@ -343,7 +420,7 @@ document.getElementById("addQuestBtn").addEventListener("click", () => {
     document.getElementById("saveAddOrEdit").addEventListener("click", handleSaveButton);
 });
 
-console.log(currentProject);
+// console.log(currentProject);
 
 
 updateInChargePers = function () {
@@ -364,6 +441,7 @@ function findUserName(id) {
     // if(userFound) {
     //     let userName = userFound.fullname;
     // }
+    // console.log("userFound", userFound);
     return userFound ? userFound.fullname : "Undefined Member";
 }
 
@@ -385,7 +463,7 @@ findEmailOfUser = (id) => {
 function renderEmployee() {
     html = "";
     currentProject.members.forEach(mem => {
-        console.log(mem);
+        // console.log(mem);
 
         html += `
             <div class="mb-2 me-2 p-2">
@@ -410,11 +488,11 @@ addEmployee = function () {
     let addEmail = document.getElementById("member-email-add").value;
     let addRole = document.getElementById("member-role-add").value;
     let mistake = document.getElementById("printMistakeMember");
-    console.log(findUserIdByEmail(addEmail));
+    // console.log(findUserIdByEmail(addEmail));
 
 
     let isEmailExisted = addEmail === "" || currentProject.members.some(member => member.userId === findUserIdByEmail(addEmail));
-    console.log(isEmailExisted);
+    // console.log(isEmailExisted);
     if (isEmailExisted) {
         mistake.innerHTML = "Email đã tồn tại!!";
     } else {
@@ -531,12 +609,13 @@ document.getElementById("addQuestBtn").addEventListener("click", function () {
 document.getElementById("table-body").addEventListener("click", function (event) {
     if (event.target.classList.contains("edit-btn")) {
         isEditing = true;
-        let taskId = +(event.target.getAttribute("data-id"));
-        let task = currentProject.tasks.find(t => t.id === taskId);
+        editingProjectId = +(event.target.getAttribute("data-id"));
+        let task = currentProject.tasks.find(t => t.id === editingProjectId);
 
         if (task) {
             isEditing = true;
             updateInChargePers();
+            document.getElementById("printMistakeTask").innerHTML = "";
 
             // set up thong tin task hien. tai. cho form
             document.getElementById("project-name-add").value = task.taskName;
@@ -547,8 +626,8 @@ document.getElementById("table-body").addEventListener("click", function (event)
             document.getElementById("priority").value = task.priority;
             document.getElementById("progress").value = task.progress;
 
-            document.getElementById("saveAddOrEdit").setAttribute("data-id", taskId);
-            document.getElementById("printMistakeTask").innerHTML = "";
+            document.getElementById("saveAddOrEdit").removeEventListener("click", handleSaveButton);
+            document.getElementById("saveAddOrEdit").addEventListener("click", handleSaveButton);
         }
     }
 });

@@ -12,18 +12,7 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
-        <div class="container d-flex justify-content-between align-items-center">
-            <div>
-                <h5 class="mb-0">Quản Lý Dự Án</h5>
-            </div>
-            <div>
-                <a href="./project-management.html" class="text-white me-3 text-decoration-none">Dự Án</a>
-                <a href="./personal-task.html" class="text-white me-3 text-decoration-none">Nhiệm Vụ của tôi</a>
-                <a href="#" class="text-white text-decoration-none">Đăng Xuất</a>
-            </div>
-        </div>
-    </header>
+    <header class="header" id="header"></header>
     
     <!-- Main Content -->
     <div class="container my-4 w-75">
@@ -182,48 +171,7 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const collapsibles = document.querySelectorAll('.collapsible');
-            
-            document.querySelectorAll('.collapsible.collapsed').forEach(collapsible => {
-                hideTaskRows(collapsible);
-            });
-            
-            collapsibles.forEach(collapsible => {
-                collapsible.addEventListener('click', function() {
-                    this.classList.toggle('collapsed');
-                    
-                    if (this.classList.contains('collapsed')) {
-                        hideTaskRows(this);
-                    } else {
-                        showTaskRows(this);
-                    }
-                });
-            });
-            
-            function hideTaskRows(collapsible) {
-                const header = collapsible.closest('.collapsible-header');
-                let nextRow = header.nextElementSibling;
-                
-                while (nextRow && !nextRow.classList.contains('collapsible-header')) {
-                    nextRow.style.display = 'none';
-                    nextRow = nextRow.nextElementSibling;
-                }
-            }
-            
-            function showTaskRows(collapsible) {
-                const header = collapsible.closest('.collapsible-header');
-                let nextRow = header.nextElementSibling;
-                
-                while (nextRow && !nextRow.classList.contains('collapsible-header')) {
-                    nextRow.style.display = '';
-                    nextRow = nextRow.nextElementSibling;
-                }
-            }
-        });
-    </script>
+    <script src="../js/personal-task.js"></script>
 </body>
 </html>

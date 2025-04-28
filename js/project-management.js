@@ -1,13 +1,13 @@
 let allProjects = JSON.parse(localStorage.getItem("allProjects")) || [
-    { id: 1, projectName: "Xây dựng website thương mại điện tử", members: [{ userId: 1, role: "Project owner" }, { userId: 2, role: "Frontend developer" }], description: "Dự án nhằm phát triển một nền tảng thương mại điện tử với các tính năng như giỏ hàng, thanh toán và quản lý sản phẩm." },
-    { id: 2, projectName: "Phát triển ứng dụng di động", members: [], description: "" },
-    { id: 3, projectName: "Quản lý dữ liệu khách hàng", members: [], description: "" },
-    { id: 4, projectName: "Xây dựng website thương mại điện tử", members: [], description: "" },
-    { id: 5, projectName: "Phát triển ứng dụng di động", members: [], description: "" },
-    { id: 6, projectName: "Quản lý dữ liệu khách hàng", members: [], description: "" },
-    { id: 7, projectName: "Xây dựng website thương mại điện tử", members: [], description: "" },
-    { id: 8, projectName: "Phát triển ứng dụng di động", members: [], description: "" },
-    { id: 9, projectName: "Quản lý dữ liệu khách hàng", members: [], description: "" },
+    { id: 1, projectName: "Xây dựng website thương mại điện tử", members: [{ userId: 1, role: "Project owner" }, { userId: 2, role: "Frontend developer" }], description: "Dự án nhằm phát triển một nền tảng thương mại điện tử với các tính năng như giỏ hàng, thanh toán và quản lý sản phẩm.", tasks: [] },
+    { id: 2, projectName: "Phát triển ứng dụng di động", members: [], description: "", tasks: [] },
+    { id: 3, projectName: "Quản lý dữ liệu khách hàng", members: [], description: "", tasks: [] },
+    { id: 4, projectName: "Xây dựng website thương mại điện tử", members: [], description: "", tasks: [] },
+    { id: 5, projectName: "Phát triển ứng dụng di động", members: [], description: "", tasks: [] },
+    { id: 6, projectName: "Quản lý dữ liệu khách hàng", members: [], description: "", tasks: [] },
+    { id: 7, projectName: "Xây dựng website thương mại điện tử", members: [], description: "", tasks: [] },
+    { id: 8, projectName: "Phát triển ứng dụng di động", members: [], description: "", tasks: [] },
+    { id: 9, projectName: "Quản lý dữ liệu khách hàng", members: [], description: "", tasks: [] },
 ];
 localStorage.setItem("allProjects", JSON.stringify(allProjects));
 
@@ -49,13 +49,24 @@ if (role !== "admin") {
 
 function createHeader() {
     let header = document.getElementById("header");
-    if (role === "admin" || role === "Project owner") {
+    if (role === "admin") {
         header.innerHTML = `<div class="container d-flex justify-content-between align-items-center">
             <div>
                 <h5 class="mb-0">Quản Lý Dự Án</h5>
             </div>
             <div>
-                <a href="../pages/project-management" class="text-white me-3 text-decoration-none">Dự Án</a>
+                <a href="../pages/project-management.html" class="text-white me-3 text-decoration-none">Dự Án</a>
+                <a href="#" class="text-white text-decoration-none" id="logOutBtn">Đăng Xuất</a>
+            </div>
+        </div>`;
+    } else if(role === "Project owner") {
+        header.innerHTML = `<div class="container d-flex justify-content-between align-items-center">
+            <div>
+                <h5 class="mb-0">Quản Lý Dự Án</h5>
+            </div>
+            <div>
+                <a href="../pages/project-management.html" class="text-white me-3 text-decoration-none">Dự Án</a>
+                <a href="../pages/personal-task.html" class="text-white me-3 text-decoration-none">Nhiệm Vụ của tôi</a>
                 <a href="#" class="text-white text-decoration-none" id="logOutBtn">Đăng Xuất</a>
             </div>
         </div>`;
@@ -127,9 +138,11 @@ renderProject();
 document.getElementById("table-body").addEventListener("click", function (event) {
     if (event.target.classList.contains("del-btn")) {
         let id = +(event.target.getAttribute("data-id"));
-        document.getElementById("confirmDel").addEventListener("click", () => {
+        document.getElementById("confirmDelBtn").addEventListener("click", () => {
             allProjects = allProjects.filter(project => project.id !== id);
-            renderProject();
+            // renderProject();
+            renderPagination(allProjects);
+            changePage(1);
             localStorage.setItem("allProjects", JSON.stringify(allProjects));
         });
     }
@@ -138,8 +151,8 @@ document.getElementById("table-body").addEventListener("click", function (event)
 let isEditing = false;
 let editingProjectId = null;
 
+// Reset form
 document.getElementById("addProjectBtn").addEventListener("click", function () {
-    // Reset form
     document.getElementById("project-name-add").value = "";
     document.getElementById("project-describe-add").value = "";
     document.getElementById("printMistake").innerHTML = "";
@@ -193,7 +206,9 @@ document.getElementById("saveAddBtn").addEventListener("click", function () {
         });
     }
 
-    renderProject();
+    // renderProject();
+    renderPagination(allProjects);
+    changePage(1);
     localStorage.setItem("allProjects", JSON.stringify(allProjects));
 });
 
@@ -207,7 +222,17 @@ function searchProject() {
     let input = document.getElementById("search-project").value.trim().toLowerCase();
     let filterProject = allProjects.filter(project => project.projectName.toLowerCase().includes(input));
 
-    renderProject(filterProject);
+    // console.log(filterProject);
+
+    const arrTest = [
+        
+    ]
+    
+
+    renderProject(filterProject.length > 0 ? filterProject : arrTest);
+    renderPagination(filterProject.length > 0 ? filterProject : "No project found"); 
+
+    // renderProject(divideArray(filterProject, itemsPerPage)[0]);
     // changePage(1);
 }
 
@@ -237,6 +262,12 @@ function divideArray(array, pageSize) {
 let totalPages = 0;
 
 function renderPagination(array) {
+    if(array === "No project found") {
+        let pagination = document.getElementById("pagination");
+        pagination.innerHTML = "";
+        return;
+    }
+    
     let pages = divideArray(array, itemsPerPage);
     totalPages = pages.length;
     let pagination = document.getElementById("pagination");

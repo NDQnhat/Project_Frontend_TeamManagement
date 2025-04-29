@@ -22,16 +22,16 @@
         <div class="row mb-4">
             <div class="col-12 d-flex justify-content-end">
                 <div class="me-2">
-                    <select class="form-select">
+                    <select class="form-select" id="sortTask" onchange="sortTask()">
                         <option disabled selected>Sắp xếp theo</option>
-                        <option>Tên nhiệm vụ</option>
-                        <option>Ngày bắt đầu</option>
-                        <option>Hạn chót</option>
-                        <option>Độ ưu tiên</option>
+                        <option value="name">Tên nhiệm vụ</option>
+                        <option value="date-start">Ngày bắt đầu</option>
+                        <option value="date-end">Hạn chót</option>
+                        <option value="priority">Độ ưu tiên</option>
                     </select>
                 </div>
                 <div>
-                    <input type="text" class="form-control" placeholder="Tìm kiếm nhiệm vụ">
+                    <input type="text" class="form-control" placeholder="Tìm kiếm nhiệm vụ" id="searchTask">
                 </div>
             </div>
         </div>
@@ -46,97 +46,14 @@
                         <thead class="text-center">
                             <tr>
                                 <th class="border">Tên Nhiệm Vụ</th>
-                                <th class="border">Người Phụ Trách</th>
-                                <th class="border">Ưu Tiên</th>
+                                <th class="border">Độ ưu Tiên</th>
+                                <th class="border">Trạng thái</th>
                                 <th class="border">Ngày Bắt Đầu</th>
                                 <th class="border">Hạn Chót</th>
                                 <th class="border">Tiến độ</th>
                             </tr>
                         </thead>
-                        <tbody class="text-center" id="table-body">
-                            <!-- <tr class="collapsible-header">
-                                <td colspan="6">
-                                    <button class="collapsible btn btn-link text-dark p-0 text-decoration-none">
-                                        <span class="collapse-icon">▼</span>
-                                        Xây dựng website thương mại điện tử
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="task-row">
-                                <td class="text-start border">Soạn thảo đề cương dự án</td>
-                                <td class="border">
-                                    <span class="badge priority-low rounded-pill">Thấp</span>
-                                </td>
-                                <td class="border">
-                                    In progress <i class="fa-light fa-pen-to-square" data-bs-toggle="modal" data-bs-target="#confirmUpdate"></i>
-                                </td>
-                                <td class="date-column border">02 - 24</td>
-                                <td class="date-column border">02 - 27</td>
-                                <td class="border">
-                                    <span class="badge progress-ontrack rounded-pill">Đúng tiến độ</span>
-                                </td>
-                            </tr>
-                            <tr class="task-row">
-                                <td class="text-start border">Soạn thảo đề cương dự án</td>
-                                <td class="border">
-                                    <span class="badge priority-medium rounded-pill">Trung bình</span>
-                                </td>
-                                <td class="border">
-                                    In progress <i class="fa-light fa-pen-to-square"></i>
-                                </td>
-                                <td class="date-column border">02 - 24</td>
-                                <td class="date-column border">02 - 27</td>
-                                <td class="border">
-                                    <span class="badge progress-risk rounded-pill">Có rủi ro</span>
-                                </td>
-                            </tr>
-                            <tr class="task-row">
-                                <td class="text-start border">Soạn thảo đề cương dự án</td>
-                                <td class="border">
-                                    <span class="badge priority-high rounded-pill">Cao</span>
-                                </td>
-                                <td class="border">
-                                    Pending <i class="fa-light fa-pen-to-square"></i>
-                                </td>
-                                <td class="date-column border">02 - 24</td>
-                                <td class="date-column border">02 - 27</td>
-                                <td class="border">
-                                    <span class="badge progress-late rounded-pill">Trễ hạn</span>
-                                </td>
-                            </tr>
-                            
-                            <tr class="collapsible-header bg-light">
-                                <td colspan="6">
-                                    <button class="collapsible btn btn-link text-dark p-0 text-decoration-none">
-                                        <span class="collapse-icon">▼</span>
-                                        Phát triển ứng dụng di động
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="task-row">
-                                <td class="text-start border">Lên lịch họp kickoff</td>
-                                <td>
-                                    <span class="badge priority-low rounded-pill">Thấp</span>
-                                </td>
-                                <td class="border">
-                                    In progress <i class="fa-light fa-pen-to-square"></i>
-                                </td>
-                                <td class="date-column border">02 - 24</td>
-                                <td class="date-column border">02 - 27</td>
-                                <td class="border">
-                                    <span class="badge progress-risk rounded-pill">Có rủi ro</span>
-                                </td>
-                            </tr>
-                            
-                            <tr class="collapsible-header bg-light">
-                                <td colspan="6">
-                                    <button class="collapsible btn btn-link text-dark p-0 text-decoration-none collapsed">
-                                        <span class="collapse-icon">▼</span>
-                                        Quản lý dữ liệu khách hàng
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody> -->
+                        <tbody class="text-center" id="table-body"></tbody>
                     </table>
                 </div>
             </div>
@@ -145,11 +62,11 @@
 
 
     <!-- Footer -->
-    <!-- <footer class="footer">
+    <footer class="footer">
         <div class="container">
             <p class="mb-0">&copy; 2025 Team management. All rights reserved.</p>
         </div>
-    </footer> -->
+    </footer>
 
 
     <!-- Modal confirm update-->
@@ -165,7 +82,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy </button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Xác nhận</button>
+            <button type="button" id="confirmUpdateBtn" class="btn btn-primary" data-bs-dismiss="modal">Xác nhận</button>
             </div>
         </div>
         </div>

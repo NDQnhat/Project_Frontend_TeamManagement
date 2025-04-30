@@ -1,56 +1,117 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Quản Lý task</title>
-    <link rel="stylesheet" href="./css/reset.css">
-    <link rel="stylesheet" href="./css/responsive.css">
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Trang cá nhân</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #0d6efd;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
-<body>
-    <div class="container">
+
+<body class="bg-light">
+    <!-- <div class="container">
         <h1>OOPS NOTHING THERE!</h1>
+    </div> -->
+    <div class="container mt-5">
+        <div class="card shadow p-4">
+            <div class="text-center">
+                <img id="avatarPreview" src="https://via.placeholder.com/150" class="profile-avatar mb-3" alt="Avatar">
+                <div>
+                    <input type="file" id="avatarInput" class="form-control w-50 mx-auto mb-3" accept="image/*">
+                </div>
+                <h4 id="fullName">Nguyễn Văn A</h4>
+                <p id="email">nguyenvana@example.com</p>
+                <button class="btn btn-primary">Sửa thông tin</button>
+            </div>
+        </div>
     </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 Team management. All rights reserved.</p>
+        </div>
+    </footer>
+
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const isLoggedIn = localStorage.getItem('isLoggedIn');
-            const userRole = localStorage.getItem('userRole');
-            
-            if (isLoggedIn === 'true') {
-                document.querySelector('.auth-buttons').style.display = 'none';
-                
-                const authButtons = document.querySelector('.auth-buttons');
-                authButtons.innerHTML = '';
-                
-                const dashboardLink = document.createElement('a');
-                dashboardLink.className = 'btn dashboard-btn';
-                dashboardLink.textContent = 'Dashboard';
-                
-                if (userRole === 'admin') {
-                    dashboardLink.href = './pages/admin/home_page.html';
-                } else if (userRole === 'student') {
-                    dashboardLink.href = './pages/admin/student_page.html';
-                }
-                
-                const logoutButton = document.createElement('a');
-                logoutButton.className = 'btn logout-btn';
-                logoutButton.textContent = 'Đăng xuất';
-                logoutButton.href = '#';
-                logoutButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    localStorage.removeItem('isLoggedIn');
-                    localStorage.removeItem('userRole');
-                    window.location.reload();
-                });
-                
-                authButtons.appendChild(dashboardLink);
-                authButtons.appendChild(logoutButton);
-                authButtons.style.display = 'flex';
+
+        // document.getElementById("logOutBtn").addEventListener("click", function () {
+        //     sessionStorage.removeItem("userLogIn");
+        //     sessionStorage.removeItem("idProjectDetail");
+        //     sessionStorage.removeItem("isLogIn");
+
+        //     location.href = '../pages/login.html';
+        // });
+
+
+
+        const avatarInput = document.getElementById("avatarInput");
+        const avatarPreview = document.getElementById("avatarPreview");
+
+        avatarInput.addEventListener("change", function () {
+            const file = avatarInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    avatarPreview.src = e.target.result;
+                };
+                reader.readAsDataURL(file); // Chuyển file ảnh thành base64 và hiển thị
             }
         });
+
+        function createHeader() {
+            let header = document.getElementById("header");
+            if (role === "admin") {
+                header.innerHTML = `<div class="container d-flex justify-content-between align-items-center">
+            <div>
+                <h5 class="mb-0">Quản Lý Dự Án</h5>
+            </div>
+            <div>
+                <a href="../pages/project-management.html" class="text-white me-3 text-decoration-none">Dự Án</a>
+                <a href="#" class="text-white text-decoration-none" id="logOutBtn">Đăng Xuất</a>
+            </div>
+        </div>`;
+            } else if (role === "Project owner") {
+                header.innerHTML = `<div class="container d-flex justify-content-between align-items-center">
+            <div>
+                <h5 class="mb-0">Quản Lý Dự Án</h5>
+            </div>
+            <div>
+                <a href="../pages/project-management.html" class="text-white me-3 text-decoration-none">Dự Án</a>
+                <a href="../pages/personal-task.html" class="text-white me-3 text-decoration-none">Nhiệm Vụ của tôi</a>
+                <a href="#" class="text-white text-decoration-none" id="logOutBtn">Đăng Xuất</a>
+            </div>
+        </div>`;
+            } else {
+                header.innerHTML = `<div class="container d-flex justify-content-between align-items-center">
+            <div>
+                <h5 class="mb-0">Quản Lý Dự Án</h5>
+            </div>
+            <div>
+                <a href="../pages/personal-task.html" class="text-white me-3 text-decoration-none">Nhiệm Vụ của tôi</a>
+                <a href="#" class="text-white text-decoration-none" id="logOutBtn">Đăng Xuất</a>
+            </div>
+        </div>`;
+            }
+        }
+        // createHeader();
     </script>
 </body>
+
 </html>

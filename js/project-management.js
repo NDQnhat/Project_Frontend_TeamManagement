@@ -202,7 +202,8 @@ document.getElementById("saveAddBtn").addEventListener("click", function () {
             id: newId,
             projectName: namePj,
             members: [],
-            description: describe
+            description: describe,
+            tasks: []
         });
     }
 

@@ -70,109 +70,13 @@ document.getElementById("nameOfProject").innerHTML = currentProject.projectName;
 document.getElementById("descriptionProject").innerHTML = currentProject.description;
 
 
-//su? li' nhan' nut mui~ ten
-document.getElementById("projectToDo").addEventListener("click", function (event) {
-    // event.target.classList.toggle("rotate-icon");
-    // document.querySelectorAll(".projectToDo").classList.toggle("hidden-tasks"); tra? ve` 1 list nen phai? dung` vong` lap.
-    document.querySelectorAll(".projectToDo").forEach(function (element) {
-        element.classList.toggle("hidden-tasks");
+currentProject.tasks ? currentProject.tasks : [];
 
-        let icon = event.target.querySelector(".collapse-icon");
-        if (icon.textContent === "▼") {
-            icon.textContent = "▶";
-        } else {
-            icon.textContent = "▼";
-        }
-    });
-});
-document.getElementById("projectInProgress").addEventListener("click", function (event) {
-    document.querySelectorAll(".projectInProgress").forEach(function (element) {
-        element.classList.toggle("hidden-tasks");
-        
-        let icon = event.target.querySelector(".collapse-icon");
-        if (icon.textContent === "▼") {
-            icon.textContent = "▶";
-        } else {
-            icon.textContent = "▼";
-        }
-    });
-});
-document.getElementById("projectPending").addEventListener("click", function (event) {
-    document.querySelectorAll(".projectPending").forEach(function (element) {
-        element.classList.toggle("hidden-tasks");
+console.log(currentProject);
 
-        let icon = event.target.querySelector(".collapse-icon");
-        if (icon.textContent === "▼") {
-            icon.textContent = "▶";
-        } else {
-            icon.textContent = "▼";
-        }
-    });
-});
-document.getElementById("projectDone").addEventListener("click", function (event) {
-    document.querySelectorAll(".projectDone").forEach(function (element) {
-        element.classList.toggle("hidden-tasks");
-
-        let icon = event.target.querySelector(".collapse-icon");
-        if (icon.textContent === "▼") {
-            icon.textContent = "▶";
-        } else {
-            icon.textContent = "▼";
-        }
-    });
-});
-
-//set up 1 vai` task mac. dinh. cho pj
-//LUU Y' CHI? DUNG` LAN` DAU` KHI CHUA CO' DU~ LIEU. NEU' KHONG THI` SE~ LUON MAC DINH LA` DU~ LIEU. NAY` DU` CO' LUU LEN LOCAL
-// (function createDefaultTask() {
-//     if (+currentProjectId === 1) {
-//         let tasks = [];
-//         let task = { id: 1, taskName: "Soạn thảo đề cương dự án", assignedId: 1, assignedDate: "2025-02-24", dueDate: "2025-02-27", priority: "Thấp", progress: "Đúng tiến độ", status: "To do" };
-//         tasks.push(task);
-//         task = { id: 2, taskName: "Soạn thảo đề cương dự án", assignedId: 1, assignedDate: "2025-02-24", dueDate: "2025-02-27", priority: "Trung bình", progress: "Có rủi ro", status: "To do" };
-//         tasks.push(task);
-//         task = { id: 3, taskName: "Soạn thảo đề cương dự án", assignedId: 1, assignedDate: "2025-02-24", dueDate: "2025-02-27", priority: "Cao", progress: "Trễ hạn", status: "To do" };
-//         tasks.push(task);
-
-//         let currentProjectIndex = allProjects.findIndex(p => p.id === +(currentProjectId));
-//         if (currentProjectIndex !== -1) {
-//             allProjects[currentProjectIndex].tasks = tasks;
-
-//             tasks = [];
-//             let task4 = { id: 4, taskName: "Lên lịch họp kickoff", assignedId: 1, assignedDate: "2025-02-24", dueDate: "2025-02-27", priority: "Trung bình", progress: "Có rủi ro", status: "In Progress" };
-//             tasks.push(task4);
-//             allProjects[currentProjectIndex].tasks = allProjects[currentProjectIndex].tasks.concat(tasks);
-
-//             localStorage.setItem("allProjects", JSON.stringify(allProjects));
-//         }
-//     }
-// })();     
-
-currentProject.tasks ? currentProject.tasks :  [];
-
-
-renderTasks = () => {
+let statusTasks = ["To do", "In Progress", "Pending", "Done"];
+function renderTasks() {
     html = "";
-    let members = currentProject.members || [];
-
-    //dung` cach' nay` nen moi~ lan` lay' ra phair reset lai. du~ lieu. trong table khong se~ gap' doi DL moi~ lan` goi.
-    document.querySelectorAll(".projectToDo").forEach(element => element.remove());
-    document.querySelectorAll(".projectInProgress").forEach(element => element.remove());
-    document.querySelectorAll(".projectPending").forEach(element => element.remove());
-    document.querySelectorAll(".projectDone").forEach(element => element.remove());
-
-    //tao. ham` lay' ra class mau` nen` cho tien' do.
-    let getProgressClassStyle = (task) => {
-        let progressClass = "";
-        let progressText = task.progress.toLowerCase();
-        switch (progressText) {
-            case "đúng tiến độ": progressClass = "bg-success"; break;
-            case "có rủi ro": progressClass = "bg-warning text-dark"; break;
-            case "trễ hạn": progressClass = "bg-danger"; break;
-            default: progressClass = "bg-secondary";
-        }
-        return progressClass;
-    }
 
     //ham` lay' ra class mau` nen` cho uu tien
     let getPriorityClassStyle = (task) => {
@@ -187,106 +91,79 @@ renderTasks = () => {
         return priorityClass;
     }
 
-    console.log("currentProject.tasks", currentProject.tasks);
-    
-    if(currentProject.tasks.length === 0) {
+    //tao. ham` lay' ra class mau` nen` cho tien' do.
+    let getProgressClassStyle = (task) => {
+        let progressClass = "";
+        let progressText = task.progress.toLowerCase();
+        switch (progressText) {
+            case "đúng tiến độ": progressClass = "bg-success"; break;
+            case "có rủi ro": progressClass = "bg-warning text-dark"; break;
+            case "trễ hạn": progressClass = "bg-danger"; break;
+            default: progressClass = "bg-secondary";
+        }
+        return progressClass;
+    }
+
+    if (currentProject.tasks.length === 0) {
         html += `<tr>
-                    <td colspan="6" class="text-center">Không có nhiệm vụ nào</td>
+                    <td colspan="7" class="text-center">Không có nhiệm vụ nào</td>
                 </tr>`;
     } else {
-        let todoTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "to do");
-        let inProgressTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "in progress");
-        let pendingTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "pending");
-        let doneTasks = currentProject.tasks.filter(task => task.status.toLowerCase() === "done");
-    
-        let projectToDo = document.getElementById("projectToDo");
-        todoTasks.forEach(task => {
-            let assignedPerson = currentProject.members.find(member => member.userId === task.assignedId);
-            // <td class="border">${findUserName(assignedPerson.userId)}</td>
-            // <td class="border">${assignedPerson}</td>
-            console.log("assignedPerson", assignedPerson);
-            html += `
-                <tr class="projectToDo">
-                    <td class="border text-start">${task.taskName}</td>
-                    <td class="border">${assignedPerson ? findUserName(assignedPerson.userId) : 'undefined'}</td>   
-                    <td class="border"><span class="badge status-badge ${getPriorityClassStyle(task)}">${task.priority}</span></td>
-                    <td class="border date-column">${task.assignedDate}</td>
-                    <td class="border date-column">${task.dueDate}</td>
-                    <td class="border"><span class="badge ${getProgressClassStyle(task)}">${task.progress}</span></td>
-                    <td class="border">
-                        <button class="btn btn-warning btn-sm edit-btn action-btn" data-id="${task.id}"  data-bs-toggle="modal" data-bs-target="#addQuest">Sửa</button>
-                        <button data-id="${task.id}" class="btn btn-danger btn-sm action-btn del-btn" data-bs-toggle="modal" data-bs-target="#confirmDel">Xóa</button>
-                    </td>
-                </tr>
-            `;
+        statusTasks.forEach(status => {
+            html += `<tr id="${status.replace(/\s+/g, "-")}" data-status="${status.replace(/\s+/g, "-")}">
+                        <td colspan="7" class="fw-bold text-start">
+                            <button class="btn btn-link text-dark p-0 text-decoration-none">
+                                <span class="collapse-icon" id="icon-${status.replace(/\s+/g, "-")}">▼</span>${status}
+                            </button>
+                        </td>
+                    </tr>`;
+
+            // Loc. status cung` trang. thai'
+            const tasksWithStatus = currentProject.tasks.filter(task => task.status.toLowerCase() === status.toLowerCase());
+
+            if (tasksWithStatus.length === 0) {
+                html += `<tr class="${status.replace(/\s+/g, "-")}">
+                            <td colspan="7" class="text-center">Không có nhiệm vụ</td>
+                        </tr>`;
+            } else {
+                tasksWithStatus.forEach(task => {
+                    let assignedPerson = currentProject.members.find(member => member.userId === task.assignedId);
+                    html += `<tr class="${status.replace(/\s+/g, "-")}">
+                                <td class="border text-start">${task.taskName}</td>
+                                <td class="border">${assignedPerson ? findUserName(assignedPerson.userId) : 'undefined'}</td>
+                                <td class="border"><span class="badge status-badge ${getPriorityClassStyle(task)}">${task.priority}</span></td>
+                                <td class="border date-column">${task.assignedDate}</td>
+                                <td class="border date-column">${task.dueDate}</td>
+                                <td class="border"><span class="badge ${getProgressClassStyle(task)}">${task.progress}</span></td>
+                                <td class="border">
+                                    <button class="btn btn-warning btn-sm edit-btn action-btn" data-id="${task.id}" data-bs-toggle="modal" data-bs-target="#addQuest">Sửa</button>
+                                    <button data-id="${task.id}" class="btn btn-danger btn-sm action-btn del-btn" data-bs-toggle="modal" data-bs-target="#confirmDel">Xóa</button>
+                                </td>
+                            </tr>`;
+                });
+            }
         });
-        projectToDo.insertAdjacentHTML("afterend", html);
-    
-        let projectInProgress = document.getElementById("projectInProgress");
-        html = "";
-        inProgressTasks.forEach(task => {
-            let assignedPerson = currentProject.members.find(member => member.userId === task.assignedId);
-            html += `
-                <tr class="projectInProgress">
-                    <td class="border text-start">${task.taskName}</td>
-                    <td class="border">${assignedPerson ? findUserName(assignedPerson.userId) : 'undefined'}</td>
-                    <td class="border"><span class="badge status-badge ${getPriorityClassStyle(task)}">${task.priority}</span></td>
-                    <td class="border date-column">${task.assignedDate}</td>
-                    <td class="border date-column">${task.dueDate}</td>
-                    <td class="border"><span class="badge ${getProgressClassStyle(task)}">${task.progress}</span></td>
-                    <td class="border">
-                        <button class="btn btn-warning btn-sm edit-btn action-btn" data-id="${task.id}"  data-bs-toggle="modal" data-bs-target="#addQuest">Sửa</button>
-                        <button data-id="${task.id}" class="btn btn-danger btn-sm action-btn del-btn" data-bs-toggle="modal" data-bs-target="#confirmDel">Xóa</button>
-                    </td>
-                </tr>
-            `;
+        document.getElementById("table-body").innerHTML = html;
+
+        statusTasks.forEach(status => {
+            const statusId = status.replace(/\s+/g, "-");
+            document.getElementById(statusId).addEventListener("click", function (event) {
+                document.querySelectorAll(`.${statusId}`).forEach(function (task) {
+                    task.classList.toggle("hidden-tasks");
+                });
+
+                const icon = this.querySelector(".collapse-icon");
+                if (icon) {
+                    icon.textContent = icon.textContent === "▼" ? "▶" : "▼";
+                }
+            });
         });
-        projectInProgress.insertAdjacentHTML("afterend", html);
-    
-        let projectPending = document.getElementById("projectPending");
-        html = "";
-        pendingTasks.forEach(task => {
-            let assignedPerson = currentProject.members.find(member => member.userId === task.assignedId);
-            html += `
-                <tr class="projectPending">
-                    <td class="border text-start">${task.taskName}</td>
-                    <td class="border">${assignedPerson ? findUserName(assignedPerson.userId) : 'undefined'}</td>
-                    <td class="border"><span class="badge status-badge ${getPriorityClassStyle(task)}">${task.priority}</span></td>
-                    <td class="border date-column">${task.assignedDate}</td>
-                    <td class="border date-column">${task.dueDate}</td>
-                    <td class="border"><span class="badge ${getProgressClassStyle(task)}">${task.progress}</span></td>
-                    <td class="border">
-                        <button class="btn btn-warning edit-btn btn-sm action-btn" data-id="${task.id}"  data-bs-toggle="modal" data-bs-target="#addQuest">Sửa</button>
-                        <button data-id="${task.id}" class="btn btn-danger btn-sm action-btn del-btn" data-bs-toggle="modal" data-bs-target="#confirmDel">Xóa</button>
-                    </td>
-                </tr>
-            `;
-        });
-        projectPending.insertAdjacentHTML("afterend", html);
-    
-        let projectDone = document.getElementById("projectDone");
-        html = "";
-        doneTasks.forEach(task => {
-            let assignedPerson = currentProject.members.find(member => member.userId === task.assignedId);
-            html += `
-                <tr class="projectDone">
-                    <td class="border text-start">${task.taskName}</td>
-                    <td class="border">${assignedPerson ? findUserName(assignedPerson.userId) : 'undefined'}</td>
-                    <td class="border"><span class="badge status-badge ${getPriorityClassStyle(task)}">${task.priority}</span></td>
-                    <td class="border date-column">${task.assignedDate}</td>
-                    <td class="border date-column">${task.dueDate}</td>
-                    <td class="border"><span class="badge ${getProgressClassStyle(task)}">${task.progress}</span></td>
-                    <td class="border">
-                        <button class="btn btn-warning edit-btn btn-sm action-btn" data-id="${task.id}"  data-bs-toggle="modal" data-bs-target="#addQuest">Sửa</button>
-                        <button data-id="${task.id}" class="btn btn-danger btn-sm action-btn del-btn" data-bs-toggle="modal" data-bs-target="#confirmDel">Xóa</button>
-                    </td>
-                </tr>
-            `;
-        });
-        projectDone.insertAdjacentHTML("afterend", html);
     }
-};
+}
+
 renderTasks();
+
+
 
 let isEditing = false;
 let editingProjectId = null;
@@ -490,6 +367,13 @@ addEmployee = function () {
     let mistake = document.getElementById("printMistakeMember");
     // console.log(findUserIdByEmail(addEmail));
 
+    if (userLogIn.toLowerCase() === "admin") {
+        addRole = "Project owner";
+    } else {
+        addRole = "Member";
+        console.log("addRole", addRole);
+    }
+
 
     let isEmailExisted = addEmail === "" || currentProject.members.some(member => member.userId === findUserIdByEmail(addEmail));
     // console.log(isEmailExisted);
@@ -498,11 +382,13 @@ addEmployee = function () {
     } else {
         currentProject.members.push({ userId: findUserIdByEmail(addEmail), role: addRole });
         renderEmployee();
+        updateDetailMemberModal();
         localStorage.setItem("allProjects", JSON.stringify(allProjects));
         document.getElementById("addMemberBtn").setAttribute("data-bs-dismiss", "modal");
         document.getElementById("addMemberBtn").click();
     }
 }
+
 
 document.getElementById("addMemberBtn").addEventListener("click", function () {
     document.getElementById("member-email-add").value = "";
@@ -522,17 +408,17 @@ document.getElementById("addMemberBtn").addEventListener("click", function () {
     document.getElementById("saveAddMemberBtn").addEventListener("click", addEmployee);
 });
 
-
-document.getElementById("watchMoreMember").addEventListener("click", function () {
-    html = "";
+//tach' ham` rieng ra thay vi` cho vao` event listener do cach' kia phai? load lai. trang moi' cap. nhat. member trong modal
+function updateDetailMemberModal() {
+    let html = "";
     html += `<div class="row">
-                    <div class="col">
-                        <p class="text-center">Thành viên</p>   
-                    </div>
-                    <div class="col">
-                        <p class="text-center">Vai trò</p>
-                    </div>
-                </div>`;
+                <div class="col">
+                    <p class="text-center">Thành viên</p>   
+                </div>
+                <div class="col">
+                    <p class="text-center">Vai trò</p>
+                </div>
+            </div>`;
     currentProject.members.forEach(mem => {
         html += `<div class="row">
                     <div class="col">
@@ -554,13 +440,17 @@ document.getElementById("watchMoreMember").addEventListener("click", function ()
                 </div>`;
     });
     document.getElementById("detailAllMember").innerHTML = html;
+}
+
+document.getElementById("watchMoreMember").addEventListener("click", function () {
+    updateDetailMemberModal();
 });
 
 function delEmployee(id) {
     currentProject.members = currentProject.members.filter(mem => mem.userId !== id);
     renderEmployee();
+    updateDetailMemberModal();
     localStorage.setItem("allProjects", JSON.stringify(allProjects));
-    //kbiet sua? sao nhung phai? load lai. trang thi` modal moi' update du~ lieu.
 }
 
 //tu. dong. cap. nhap. member 
@@ -635,10 +525,12 @@ document.getElementById("table-body").addEventListener("click", function (event)
 
 function searchTask() {
     let searchInput = document.getElementById("searchTaskInput").value.toLowerCase();
-    let taskRows = document.querySelectorAll('.projectToDo, .projectInProgress, .projectPending, .projectDone');
+    let taskRows = document.querySelectorAll(".To-do, .In-Progress, .Pending, .Done");
 
     taskRows.forEach(row => {
         const taskName = row.querySelector('td:first-child').textContent.toLowerCase();
+        // console.log(taskName);
+
         if (taskName.includes(searchInput)) {
             row.style.display = ''; //hien? thi. neu' khop'
         } else {
@@ -649,7 +541,7 @@ function searchTask() {
 
 function sortTask() {
     let sortSelect = document.getElementById("sortTask").value;
-    let taskRows = document.querySelectorAll('.projectToDo, .projectInProgress, .projectPending, .projectDone');
+    let taskRows = document.querySelectorAll(".To-do, .In-Progress, .Pending, .Done");
 
     switch (sortSelect) {
         case "progess":

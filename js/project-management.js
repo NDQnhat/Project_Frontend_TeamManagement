@@ -59,7 +59,7 @@ function createHeader() {
                 <a href="#" class="text-white text-decoration-none" id="logOutBtn">Đăng Xuất</a>
             </div>
         </div>`;
-    } else if(role === "Project owner") {
+    } else {
         header.innerHTML = `<div class="container d-flex justify-content-between align-items-center">
             <div>
                 <h5 class="mb-0">Quản Lý Dự Án</h5>
@@ -70,22 +70,33 @@ function createHeader() {
                 <a href="#" class="text-white text-decoration-none" id="logOutBtn">Đăng Xuất</a>
             </div>
         </div>`;
-    } else {
-        header.innerHTML = `<div class="container d-flex justify-content-between align-items-center">
-            <div>
-                <h5 class="mb-0">Quản Lý Dự Án</h5>
-            </div>
-            <div>
-                <a href="../pages/personal-task.html" class="text-white me-3 text-decoration-none">Nhiệm Vụ của tôi</a>
-                <a href="#" class="text-white text-decoration-none" id="logOutBtn">Đăng Xuất</a>
-            </div>
-        </div>`;
     }
 }
+createHeader();
+
+
+function yourAllProject() {
+    // let yourProjects = [];
+    // yourProjects = allProjects.filter(project => {
+    //     project.tasks.some(task => task.assignedId === accountId);
+    // });
+    // return yourProjects;
+    let $projects = [];
+    allProjects.forEach(project => {
+        project.members.forEach(member => {
+            if (member.userId === accountId && member.role === "Project owner") {
+                $projects.push(project);
+            }
+        });
+    });
+    return $projects;
+}
+
+console.log("yourAllProject", yourAllProject());
+
 
 function renderProject(projects = allProjects) {
     html = "";
-    createHeader();
     if (role === "admin") {
         projects.forEach(project => {
             html += `<tr>
@@ -99,32 +110,37 @@ function renderProject(projects = allProjects) {
                     </tr>`;
         });
         document.getElementById("table-body").innerHTML = html;
-    } else if (role == "Project owner") {
-        let projectBelongTo = projects.filter(project => {
-            return project.members.some(member => member.userId === accountId);
-        });
+    } else {
 
-        if (projectBelongTo.length === 0) {
-            html = html = `<tr><td colspan="3" class="text-center">OOPS! YOU DON'T HAVE ANY PROJECT NOW!!</td></tr>`;
+        if (projects.length === 0) {
+            html = `<tr><td colspan="3" class="text-center">OOPS! YOU DON'T HAVE ANY PROJECT NOW!!</td></tr>`;
             document.getElementById("table-body").innerHTML = html;
         } else {
-            projectBelongTo.forEach(project => {
+            // if(projects !== allProjects)
+            let yourOwnProjects = [];
+            projects.forEach(project => {
+                project.members.forEach(member => {
+                    if (member.userId === accountId && member.role === "Project owner") {
+                        yourOwnProjects.push(project);
+                    }
+                });
+            });
+            console.log(yourOwnProjects);
+            
+            yourOwnProjects.forEach(project => {
                 html += `<tr>
-                            <td class="border">${project.id}</td>
-                            <td class="border text-start">${project.projectName}</td>
-                            <td class="btns border">
-                                <button data-id="${project.id}" class="btn btn-primary btn-sm detail-btn">Chi tiết</button>
-                            </td>
-                        </tr>`;
+                        <td class="border">${project.id}</td>
+                        <td class="border text-start">${project.projectName}</td>
+                        <td class="btns border">
+                            <button class="btn btn-primary btn-sm detail-btn" data-id="${project.id}">Chi tiết</button>
+                        </td>
+                    </tr>`;
             });
             document.getElementById("table-body").innerHTML = html;
         }
-    } else {
-        location.href = '../pages/personal-task.html';
     }
 }
-
-renderProject();
+// renderProject(projects = userLogIn.toLowerCase() === "admin" ? allProjects : yourAllProject());     //o? logic phan trang da~ goi. nen khong can` goi. them o? day nhung khi khong co' project nao` de? phan trang thi` se~ khong hien. gi` ca?
 
 (function displayAddBtn() {
     let addBtn = document.getElementById("addProjectBtn");
@@ -226,23 +242,23 @@ function searchProject() {
     // console.log(filterProject);
 
     const arrTest = [
-        
+
     ]
-    
+
 
     renderProject(filterProject.length > 0 ? filterProject : arrTest);
-    renderPagination(filterProject.length > 0 ? filterProject : "No project found"); 
+    renderPagination(filterProject.length > 0 ? filterProject : "No project found");
 
     // renderProject(divideArray(filterProject, itemsPerPage)[0]);
     // changePage(1);
 }
 
 //khi nhan' vao` chi tiet
-document.getElementById("table-body").addEventListener("click", function(e) {
-    if(e.target.classList.contains("detail-btn")) {
+document.getElementById("table-body").addEventListener("click", function (e) {
+    if (e.target.classList.contains("detail-btn")) {
         let id = +(e.target.getAttribute("data-id"));
         console.log(id);
-        
+
         sessionStorage.setItem("idProjectDetail", JSON.stringify(id));
         location.href = './project-detail.html';
     }
@@ -263,12 +279,12 @@ function divideArray(array, pageSize) {
 let totalPages = 0;
 
 function renderPagination(array) {
-    if(array === "No project found") {
+    if (array === "No project found") {
         let pagination = document.getElementById("pagination");
         pagination.innerHTML = "";
         return;
     }
-    
+
     let pages = divideArray(array, itemsPerPage);
     totalPages = pages.length;
     let pagination = document.getElementById("pagination");
@@ -292,14 +308,16 @@ function renderPagination(array) {
         document.getElementById("nextPage").classList.add("disabled");
     }
 }
-renderPagination(allProjects);
+renderPagination(projects = userLogIn.toLowerCase() === "admin" ? allProjects : yourAllProject());
 changePage(1);
 
 function changePage(page) {
-    if (page < 1 || page > totalPages) return; 
+    if (page < 1 || page > totalPages) return;
 
     currentPage = page;
-    renderProject(divideArray(allProjects, itemsPerPage)[page - 1]);
+
+    let projectsShow = userLogIn.toLowerCase() === "admin" ? allProjects : yourAllProject();
+    renderProject(divideArray(projectsShow, itemsPerPage)[page - 1]);
 
     let paginationItems = document.querySelectorAll(".page-item");
     paginationItems.forEach(item => item.classList.remove("active"));
@@ -308,16 +326,6 @@ function changePage(page) {
     document.getElementById("prevPage").classList.toggle("disabled", page === 1);
     document.getElementById("nextPage").classList.toggle("disabled", page === totalPages);
 }
-
-// function 
-
-
-
-
-
-
-
-
 
 
 document.getElementById("logOutBtn").addEventListener("click", function () {

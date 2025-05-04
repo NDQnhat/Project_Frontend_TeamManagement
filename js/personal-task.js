@@ -110,7 +110,7 @@ function renderYourTask(yourOwnTasks = _tasksOfUser) {
             project.tasks.forEach(task => {
                 if (task.assignedId === findUserIdByEmail(emailLogin)) {
                     html += `<tr class="task-row ${classId}">
-                                <td class="text-start border">${task.taskName}</td>
+                                <td class="text-start border task-name">${task.taskName}</td>
                                 <td class="border">
                                     <span class="badge ${getPriorityClassStyle(task)} rounded-pill priority">${task.priority}</span>
                                 </td>
@@ -148,124 +148,122 @@ function renderYourTask(yourOwnTasks = _tasksOfUser) {
 
 renderYourTask();
 
-    // temp.forEach(id => {
-    //     document.getElementById(id).addEventListener("click", function (event) {
-    //         // let className = `.${id}`;
-    //         document.querySelectorAll(`.${id}`).forEach(function (task) {
-    //             task.classList.toggle("hidden-tasks");
+// temp.forEach(id => {
+//     document.getElementById(id).addEventListener("click", function (event) {
+//         // let className = `.${id}`;
+//         document.querySelectorAll(`.${id}`).forEach(function (task) {
+//             task.classList.toggle("hidden-tasks");
 
-    //             let icon = event.target.querySelector(".collapse-icon");
-    //             if (icon.textContent === "▼") {
-    //                 icon.textContent = "▶";
-    //             } else {
-    //                 icon.textContent = "▼";
-    //             }
-    //         });
-    //     });
-    // });
+//             let icon = event.target.querySelector(".collapse-icon");
+//             if (icon.textContent === "▼") {
+//                 icon.textContent = "▶";
+//             } else {
+//                 icon.textContent = "▼";
+//             }
+//         });
+//     });
+// });
 
-    let transferStatusArray = ["To Do", "In Progress", "Pending", "Done"];
+let transferStatusArray = ["To Do", "In Progress", "Pending", "Done"];
 
-    function transferStatus(task) {
-        let currentStatus = task.status;
-        let index = transferStatusArray.indexOf(currentStatus);
+function transferStatus(task) {
+    let currentStatus = task.status;
+    let index = transferStatusArray.indexOf(currentStatus);
 
-        // Tăng index lên 1, nếu đã là trạng thái cuối cùng thì quay lại đầu
-        let nextIndex = (index + 1) % transferStatusArray.length;
-        task.status = transferStatusArray[nextIndex];
-        return task.status;
-    }
+    // Tăng index lên 1, nếu đã là trạng thái cuối cùng thì quay lại đầu
+    let nextIndex = (index + 1) % transferStatusArray.length;
+    task.status = transferStatusArray[nextIndex];
+    return task.status;
+}
 
-    // document.getElementById("confirmUpdate").addEventListener("click", function (event) {
-    //     let task = event.target.closest(".task-row");
-    //     let status = transferStatus(task);
-    //     task.querySelector(".status").textContent = status;
-    // });
+// document.getElementById("confirmUpdate").addEventListener("click", function (event) {
+//     let task = event.target.closest(".task-row");
+//     let status = transferStatus(task);
+//     task.querySelector(".status").textContent = status;
+// });
 
-    document.getElementById("table-body").addEventListener("click", function (event) {
-        if (event.target.classList.contains("edit-btn")) {
-            document.getElementById("confirmUpdateBtn").addEventListener("click", function () {
-                // let taskId = event.target.dataset.id;
-                let taskId = event.target.getAttribute("data-id");
-                // console.log(taskId);
+document.getElementById("table-body").addEventListener("click", function (event) {
+    if (event.target.classList.contains("edit-btn")) {
+        document.getElementById("confirmUpdateBtn").addEventListener("click", function () {
+            // let taskId = event.target.dataset.id;
+            let taskId = event.target.getAttribute("data-id");
+            // console.log(taskId);
 
-                // event.target.closest(".task-row").querySelector(".status").textContent = status;
-                // event.target.parentElement.querySelector(".status").textContent = status;
-                // let task = null;
-                // let projectIndex = -1;
-                // let taskIndex = -1;
+            // event.target.closest(".task-row").querySelector(".status").textContent = status;
+            // event.target.parentElement.querySelector(".status").textContent = status;
+            // let task = null;
+            // let projectIndex = -1;
+            // let taskIndex = -1;
 
-                // for (let i = 0; i < allProjects.length; i++) {
-                //     let taskFound = allProjects[i].tasks.findIndex(t => t.id === taskId);
-                //     if (taskFound !== -1) {
-                //         task = allProjects[i].tasks[taskFound];
-                //         projectIndex = i;
-                //         taskIndex = taskFound;
-                //         break;
-                //     }
-                // }
-                let projectContainTask = allProjects.find(project => project.tasks.find(task => task.id === +taskId));
+            // for (let i = 0; i < allProjects.length; i++) {
+            //     let taskFound = allProjects[i].tasks.findIndex(t => t.id === taskId);
+            //     if (taskFound !== -1) {
+            //         task = allProjects[i].tasks[taskFound];
+            //         projectIndex = i;
+            //         taskIndex = taskFound;
+            //         break;
+            //     }
+            // }
+            let projectContainTask = allProjects.find(project => project.tasks.find(task => task.id === +taskId));
+            // console.log(task);
+            if (projectContainTask) {
+                let task = projectContainTask.tasks.find(task => task.id === +taskId);
                 // console.log(task);
-                if (projectContainTask) {
-                    let task = projectContainTask.tasks.find(task => task.id === +taskId);
-                    // console.log(task);
-                    let newStatus = transferStatus(task);
-                    task.status = newStatus;
-                    localStorage.setItem("allProjects", JSON.stringify(allProjects));
-                    let statusElement = event.target.parentElement;
-                    statusElement.innerHTML = `${newStatus} <i class="fa-light fa-pen-to-square edit-btn" data-id="${taskId}" data-bs-toggle="modal" data-bs-target="#confirmUpdate"></i>`;
+                let newStatus = transferStatus(task);
+                task.status = newStatus;
+                localStorage.setItem("allProjects", JSON.stringify(allProjects));
+                let statusElement = event.target.parentElement;
+                statusElement.innerHTML = `${newStatus} <i class="fa-light fa-pen-to-square edit-btn" data-id="${taskId}" data-bs-toggle="modal" data-bs-target="#confirmUpdate"></i>`;
 
-                }
-            });
-        }
-    });
-
-    function sortTask() {
-        let sortSelect = document.getElementById("sortTask").value;
-        // let taskRows = document.querySelectorAll('.task-row');
-        let taskRows = Array.from(document.querySelectorAll('.task-row'));
-
-        switch (sortSelect) {
-            case "name":
-                taskRows.sort((a, b) => a.querySelector(".task-name").textContent.localeCompare(b.querySelector(".task-name").textContent));
-                break;
-            case "date-start":
-                taskRows.sort((a, b) => new Date(a.querySelector(".date-column").textContent) - new Date(b.querySelector(".date-column").textContent));
-                break;
-            case "date-end":
-                taskRows.sort((a, b) => new Date(b.querySelector(".date-column").textContent) - new Date(a.querySelector(".date-column").textContent));
-                break;
-            case "priority":
-                // taskRows.sort((a, b) => a.querySelector(".priority").textContent.localeCompare(b.querySelector(".priority").textContent));
-                let priorityMap = { "Cao": 1, "Trung bình": 2, "Thấp": 3 };
-                taskRows.sort((a, b) => priorityMap[a.querySelector(".priority").textContent] - priorityMap[b.querySelector(".priority").textContent]);
-                break;
-        }
-        let tableBody = document.getElementById("table-body");
-        taskRows.forEach(row => tableBody.appendChild(row));
-    }
-
-
-    document.getElementById("searchTask").addEventListener("input", function () {
-        let searchValue = this.value.toLowerCase();
-        let taskRows = Array.from(document.querySelectorAll('.task-row'));
-        taskRows.forEach(row => {
-            let taskName = row.querySelector(".task-name").textContent.toLowerCase();
-            if (taskName.includes(searchValue)) {
-                row.classList.remove("hidden-tasks");
-            } else {
-                row.classList.add("hidden-tasks");
             }
         });
+    }
+});
+
+function sortTask() {
+    let sortSelect = document.getElementById("sortTask").value;
+    // let taskRows = document.querySelectorAll('.task-row');
+    let taskRows = Array.from(document.querySelectorAll('.task-row')); 12348
+
+    switch (sortSelect) {
+        case "name":
+            taskRows.sort((a, b) => a.querySelector(".task-name").textContent.localeCompare(b.querySelector(".task-name").textContent));
+            break;
+        case "date-start":
+            taskRows.sort((a, b) => new Date(a.querySelector(".date-column").textContent) - new Date(b.querySelector(".date-column").textContent));
+            break;
+        case "date-end":
+            taskRows.sort((a, b) => new Date(b.querySelector(".date-column").textContent) - new Date(a.querySelector(".date-column").textContent));
+            break;
+        case "priority":
+            // taskRows.sort((a, b) => a.querySelector(".priority").textContent.localeCompare(b.querySelector(".priority").textContent));
+            let priorityMap = { "Cao": 1, "Trung bình": 2, "Thấp": 3 };
+            taskRows.sort((a, b) => priorityMap[a.querySelector(".priority").textContent] - priorityMap[b.querySelector(".priority").textContent]);
+            break;
+    }
+    let tableBody = document.getElementById("table-body");
+    taskRows.forEach(row => tableBody.appendChild(row));
+}
+
+
+searchTask = () => {
+    let searchValue = document.getElementById("searchTask").value.toLowerCase();
+    let taskName = document.querySelectorAll(".task-name");
+    taskName.forEach(name => {
+        if (name.textContent.toLowerCase().includes(searchValue)) {
+            name.parentElement.parentElement.classList.remove("hidden-tasks");
+        } else {
+            name.parentElement.parentElement.classList.add("hidden-tasks");
+        }
     });
+} 
 
 
 
+document.getElementById("logOutBtn").addEventListener("click", function () {
+    sessionStorage.removeItem("userLogIn");
+    sessionStorage.removeItem("idProjectDetail");
+    sessionStorage.removeItem("isLogIn");
 
-    document.getElementById("logOutBtn").addEventListener("click", function () {
-        sessionStorage.removeItem("userLogIn");
-        sessionStorage.removeItem("idProjectDetail");
-        sessionStorage.removeItem("isLogIn");
-
-        location.href = '../pages/login.html';
-    });
+    location.href = '../pages/login.html';
+});

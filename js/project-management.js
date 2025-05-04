@@ -82,7 +82,7 @@ function yourAllProject() {
     // });
     // return yourProjects;
     let $projects = [];
-    allProjects.forEach(project => {
+    allProjects.forEach(project => {    11566.6
         project.members.forEach(member => {
             if (member.userId === accountId && member.role === "Project owner") {
                 $projects.push(project);
@@ -129,12 +129,12 @@ function renderProject(projects = allProjects) {
             
             yourOwnProjects.forEach(project => {
                 html += `<tr>
-                        <td class="border">${project.id}</td>
-                        <td class="border text-start">${project.projectName}</td>
-                        <td class="btns border">
-                            <button class="btn btn-primary btn-sm detail-btn" data-id="${project.id}">Chi tiết</button>
-                        </td>
-                    </tr>`;
+                            <td class="border">${project.id}</td>
+                            <td class="border text-start">${project.projectName}</td>
+                            <td class="btns border">
+                                <button class="btn btn-primary btn-sm detail-btn" data-id="${project.id}">Chi tiết</button>
+                            </td>
+                        </tr>`;
             });
             document.getElementById("table-body").innerHTML = html;
         }

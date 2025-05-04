@@ -371,7 +371,7 @@ addEmployee = function () {
         addRole = "Project owner";
     } else {
         addRole = "Member";
-        console.log("addRole", addRole);
+        // console.log("addRole", addRole);    
     }
 
 

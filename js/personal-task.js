@@ -111,14 +111,14 @@ function renderYourTask(yourOwnTasks = _tasksOfUser) {
                 if (task.assignedId === findUserIdByEmail(emailLogin)) {
                     html += `<tr class="task-row ${classId}">
                                 <td class="text-start border task-name">${task.taskName}</td>
-                                <td class="border">
+                                <td class="border priority">
                                     <span class="badge ${getPriorityClassStyle(task)} rounded-pill priority">${task.priority}</span>
                                 </td>
                                 <td class="border">
                                     ${task.status} <i class="fa-light fa-pen-to-square edit-btn" data-id="${task.id}" data-bs-toggle="modal" data-bs-target="#confirmUpdate"></i>
                                 </td>
-                                <td class="border">${task.assignedDate}</td>
-                                <td class="border">${task.dueDate}</td>
+                                <td class="border date-start">${task.assignedDate}</td>
+                                <td class="border date-end">${task.dueDate}</td>
                                 <td class="border">
                                     <span class="badge ${getProgressClassStyle(task)} rounded-pill">${task.progress}</span>
                                 </td>
@@ -230,10 +230,10 @@ function sortTask() {
             taskRows.sort((a, b) => a.querySelector(".task-name").textContent.localeCompare(b.querySelector(".task-name").textContent));
             break;
         case "date-start":
-            taskRows.sort((a, b) => new Date(a.querySelector(".date-column").textContent) - new Date(b.querySelector(".date-column").textContent));
+            taskRows.sort((a, b) => new Date(a.querySelector(".date-start").textContent) - new Date(b.querySelector(".date-start").textContent));
             break;
         case "date-end":
-            taskRows.sort((a, b) => new Date(b.querySelector(".date-column").textContent) - new Date(a.querySelector(".date-column").textContent));
+            taskRows.sort((a, b) => new Date(b.querySelector(".date-end").textContent) - new Date(a.querySelector(".date-end").textContent));
             break;
         case "priority":
             // taskRows.sort((a, b) => a.querySelector(".priority").textContent.localeCompare(b.querySelector(".priority").textContent));

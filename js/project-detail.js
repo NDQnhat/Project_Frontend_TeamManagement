@@ -387,6 +387,11 @@ addEmployee = function () {
 
     if (userLogIn.toLowerCase() === "admin") {
         addRole = "Project owner";
+        let isProjectOwnerSet = currentProject.members.some(member => member.role === "Project owner");
+        if (isProjectOwnerSet) {
+            alert("Bạn đã cấp Project owner cho gnười dùng khác!!");
+            return;
+        }
     } else {
         addRole = "Member";
         // console.log("addRole", addRole);    

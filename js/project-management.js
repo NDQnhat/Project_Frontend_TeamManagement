@@ -83,7 +83,8 @@ function yourAllProject() {
     // });
     // return yourProjects;
     let $projects = [];
-    allProjects.forEach(project => {    11566.6
+    allProjects.forEach(project => {
+        11566.6
         project.members.forEach(member => {
             if (member.userId === accountId && member.role === "Project owner") {
                 $projects.push(project);
@@ -127,7 +128,7 @@ function renderProject(projects = allProjects) {
                 });
             });
             console.log(yourOwnProjects);
-            
+
             yourOwnProjects.forEach(project => {
                 html += `<tr>
                             <td class="border">${project.id}</td>
@@ -246,13 +247,37 @@ function searchProject() {
 
     ]
 
+    // renderProject(filterProject.length > 0 ? divideArray(filterProject, itemsPerPage)[0] : arrTest);
+    // renderPagination(filterProject.length > 0 ? divideArray(filterProject, itemsPerPage) : "No project found");
 
     renderProject(filterProject.length > 0 ? filterProject : arrTest);
-    renderPagination(filterProject.length > 0 ? filterProject : "No project found");
-
-    // renderProject(divideArray(filterProject, itemsPerPage)[0]);
-    // changePage(1);
+    renderPagination(filterProject.length > 0 ? filterProject : "No project found");    //gap. loi~ khi tim` kiem' "" ket' qua? se~ khong duoc. phan trang
 }
+
+// let currentProjects = userLogIn.toLowerCase() === "admin" ? allProjects : yourAllProject();
+// function searchProject() {
+//     let input = document.getElementById("search-project").value.trim().toLowerCase();
+
+//     // Cập nhật kết quả tìm kiếm
+//     if (input === "") {
+//         // Nếu không có từ khóa tìm kiếm, hiển thị tất cả dự án
+//         currentProjects = userLogIn.toLowerCase() === "admin" ? allProjects : yourAllProject();
+//     } else {
+//         // Lọc dự án dựa trên từ khóa
+//         currentProjects = allProjects.filter(project =>
+//             project.projectName.toLowerCase().includes(input)
+//         );
+
+//         // Nếu không phải admin, chỉ hiển thị dự án của người dùng hiện tại
+//         if (userLogIn.toLowerCase() !== "admin") {
+//             currentProjects = currentProjects.filter(project => {
+//                 return project.members.some(member =>
+//                     member.userId === accountId && member.role === "Project owner"
+//                 );
+//             });
+//         }
+//     }
+// }
 
 //khi nhan' vao` chi tiet
 document.getElementById("table-body").addEventListener("click", function (e) {
@@ -319,6 +344,7 @@ function changePage(page) {
 
     let projectsShow = userLogIn.toLowerCase() === "admin" ? allProjects : yourAllProject();
     renderProject(divideArray(projectsShow, itemsPerPage)[page - 1]);
+    // renderProject(divideArray(currentProjects, itemsPerPage)[page - 1]);
 
     let paginationItems = document.querySelectorAll(".page-item");
     paginationItems.forEach(item => item.classList.remove("active"));

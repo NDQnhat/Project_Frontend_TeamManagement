@@ -10,18 +10,6 @@ body {
     margin-top: 20px;
 }
 
-.member-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
-    margin-right: 10px;
-    background-color: #6f42c1;
-}
 
 .member-info {
     display: flex;

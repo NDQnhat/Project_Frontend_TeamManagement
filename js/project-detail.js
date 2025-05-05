@@ -2,6 +2,7 @@ let currentProjectId = JSON.parse(sessionStorage.getItem("idProjectDetail")) || 
 let allProjects = JSON.parse(localStorage.getItem("allProjects")) || [];
 let currentProject = allProjects.find(project => project.id === currentProjectId);  //current pj nay` cua' the? sua? doi? nen dung` find hop. li'
 let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+// let isAvatarSet = JSON.parse(sessionStorage.getItem("isAvatarSet")) || false;
 
 
 let html = "";
@@ -28,6 +29,11 @@ if (role !== "admin") {
     }
 };
 
+currentProject.members.forEach(mem => {
+    mem.avatarUrl = findAvatarOfUser(mem.userId);
+});
+localStorage.setItem("allProjects", JSON.stringify(allProjects));
+
 function createHeader() {
     let header = document.getElementById("header");
     if (role === "admin") {
@@ -40,7 +46,7 @@ function createHeader() {
                 <a href="#" class="text-white text-decoration-none" id="logOutBtn">Đăng Xuất</a>
             </div>
         </div>`;
-    } else if (role === "Project owner") {
+    } else {
         header.innerHTML = `<div class="container d-flex justify-content-between align-items-center">
             <div>
                 <h5 class="mb-0">Quản Lý Dự Án</h5>
@@ -48,16 +54,7 @@ function createHeader() {
             <div>
                 <a href="../pages/project-management.html" class="text-white me-3 text-decoration-none">Dự Án</a>
                 <a href="../pages/personal-task.html" class="text-white me-3 text-decoration-none">Nhiệm Vụ của tôi</a>
-                <a href="#" class="text-white text-decoration-none" id="logOutBtn">Đăng Xuất</a>
-            </div>
-        </div>`;
-    } else {
-        header.innerHTML = `<div class="container d-flex justify-content-between align-items-center">
-            <div>
-                <h5 class="mb-0">Quản Lý Dự Án</h5>
-            </div>
-            <div>
-                <a href="../pages/personal-task.html" class="text-white me-3 text-decoration-none">Nhiệm Vụ của tôi</a>
+                <a href="../index.html" class="text-white me-3 text-decoration-none"><i class="fa-solid fa-circle-user"></i></a>
                 <a href="#" class="text-white text-decoration-none" id="logOutBtn">Đăng Xuất</a>
             </div>
         </div>`;
@@ -337,24 +334,45 @@ findEmailOfUser = (id) => {
     return userFound ? userFound.email : undefined;
 }
 
-function renderEmployee() {
-    html = "";
-    currentProject.members.forEach(mem => {
-        // console.log(mem);
+function findAvatarOfUser(id) {
+    let userFound = accounts.find(account => account.id === id);
+    return userFound ? userFound.avatarUrl : undefined;
+}
 
-        html += `
-            <div class="mb-2 me-2 p-2">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="member-info">
-                        <div class="member-avatar">${findUserName(mem.userId).split(" ").pop().substring(0, 2)}</div>
-                        <div>
-                            <div>${findUserName(mem.userId)}</div>
-                            <small class="text-muted">${mem.role}</small>
+function renderEmployee() {
+
+    html = ``;
+    console.log("arr",currentProject.members);
+    currentProject.members.forEach(mem => {
+      
+        // console.log(mem.avatarUrl);
+        if (mem.avatarUrl === "") {
+            html += `
+                <div class="mb-2 me-2 p-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="member-info">
+                            <div class="member-avatar">${findUserName(mem.userId).split(" ").pop().substring(0, 2)}</div>
+                            <div>
+                                <div>${findUserName(mem.userId)}</div>
+                                <small class="text-muted">${mem.role}</small>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        `;
+                </div>`;
+        } else {
+                html += `
+                    <div class="mb-2 me-2 p-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="member-info">
+                                <img src="${mem.avatarUrl}" alt="avatar" class="member-avatar">
+                                <div>
+                                    <div>${findUserName(mem.userId)}</div>
+                                    <small class="text-muted">${mem.role}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+        }
     });
     html += `<img src="../assets/icon/More.png" alt="more" id="watchMoreMember" data-bs-toggle="modal" data-bs-target="#detailMember">`;
     document.getElementById("member-list").innerHTML = html;

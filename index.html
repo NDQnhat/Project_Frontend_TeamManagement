@@ -10,14 +10,16 @@
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/main.css">
     <style>
-        .profile-avatar {
+        .member-avatar {
             width: 150px;
             height: 150px;
             object-fit: cover;
             border-radius: 50%;
             border: 3px solid #0d6efd;
+            font-size: 5rem;
+            margin: 1.5rem auto;
         }
-
+        
         .hidden {
             display: none;
         }
@@ -28,15 +30,17 @@
     <!-- <div class="container">
         <h1>OOPS NOTHING THERE!</h1>
     </div> -->
+    <header class="header" id="header"></header>
+
     <div class="container mt-5">
         <div class="card shadow p-4">
             <div class="text-center">
-                <img id="avatarPreview" src="https://via.placeholder.com/150" class="profile-avatar mb-3" alt="Avatar">
+                <img id="avatarPreview" src="" class="profile-avatar mb-3" alt="Avatar">
                 <div>
                     <input type="file" id="avatarInput" class="form-control w-50 mx-auto mb-3" accept="image/*">
                 </div>
-                <h4 id="fullName">Nguyễn Văn A</h4>
-                <p id="email">nguyenvana@example.com</p>
+                <h4 id="fullName"></h4>
+                <p id="email"></p>
                 <button class="btn btn-primary">Sửa thông tin</button>
             </div>
         </div>
@@ -50,28 +54,62 @@
 
 
     <script>
+        let html = "";
+        let role = JSON.parse(sessionStorage.getItem("isLogIn")) || "";
+        let userLogIn = JSON.parse(sessionStorage.getItem("userLogIn")) || "";
+        let users = JSON.parse(localStorage.getItem("accounts")) || [];
 
-        // document.getElementById("logOutBtn").addEventListener("click", function () {
-        //     sessionStorage.removeItem("userLogIn");
-        //     sessionStorage.removeItem("idProjectDetail");
-        //     sessionStorage.removeItem("isLogIn");
+        users.forEach(user => {
+            user.avatarUrl = user.avatarUrl || "";
+        });
+        
 
-        //     location.href = '../pages/login.html';
-        // });
+        if (!role) {
+            location.href = './pages/login.html';
+        }
+        let currentUser = users.find(user => user.email === role);
+        // console.log(currentUser);
 
-
+        document.getElementById("fullName").textContent = currentUser.fullname;
+        document.getElementById("email").textContent = currentUser.email;
 
         const avatarInput = document.getElementById("avatarInput");
         const avatarPreview = document.getElementById("avatarPreview");
+
+        avatarPreview.src = currentUser.avatarUrl;
+        let isAvatarSet = true;
+        sessionStorage.setItem("isAvatarSet", isAvatarSet);
+        if(currentUser.avatarUrl === "") {
+            isAvatarSet = false;
+            var defaultAvatar = document.createElement("div");
+            defaultAvatar.className = "member-avatar";
+            defaultAvatar.textContent = currentUser.fullname.split(" ").pop().substring(0, 2);
+            avatarPreview.replaceWith(defaultAvatar);
+            defaultAvatar.id = "avatarPreview";
+        }
 
         avatarInput.addEventListener("change", function () {
             const file = avatarInput.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
-                    avatarPreview.src = e.target.result;
+                    isAvatarSet = true;
+                    if(!isAvatarSet) {
+                        // defaultAvatar.src = e.target.result;
+                        let avatarPreview = document.createElement("img");
+                        avatarPreview.src = e.target.result;
+                        avatarPreview.className = "profile-avatar";
+                        avatarPreview.alt = "Avatar";
+                        // avatarPreview.style.width = "150px";
+                        defaultAvatar.replaceWith(avatarPreview);
+                        avatarPreview.id = "avatarPreview";
+                    } else {
+                        avatarPreview.src = e.target.result;
+                    }
+                    currentUser.avatarUrl = e.target.result;
+                    localStorage.setItem("accounts", JSON.stringify(users));
                 };
-                reader.readAsDataURL(file); // Chuyển file ảnh thành base64 và hiển thị
+                reader.readAsDataURL(file); // Chuyen? file thanh` base64 va` hien? thi.
             }
         });
 
@@ -87,7 +125,7 @@
                 <a href="#" class="text-white text-decoration-none" id="logOutBtn">Đăng Xuất</a>
             </div>
         </div>`;
-            } else if (role === "Project owner") {
+            } else {
                 header.innerHTML = `<div class="container d-flex justify-content-between align-items-center">
             <div>
                 <h5 class="mb-0">Quản Lý Dự Án</h5>
@@ -95,22 +133,21 @@
             <div>
                 <a href="../pages/project-management.html" class="text-white me-3 text-decoration-none">Dự Án</a>
                 <a href="../pages/personal-task.html" class="text-white me-3 text-decoration-none">Nhiệm Vụ của tôi</a>
-                <a href="#" class="text-white text-decoration-none" id="logOutBtn">Đăng Xuất</a>
-            </div>
-        </div>`;
-            } else {
-                header.innerHTML = `<div class="container d-flex justify-content-between align-items-center">
-            <div>
-                <h5 class="mb-0">Quản Lý Dự Án</h5>
-            </div>
-            <div>
-                <a href="../pages/personal-task.html" class="text-white me-3 text-decoration-none">Nhiệm Vụ của tôi</a>
+                <a href="./index.html" class="text-white me-3 text-decoration-none"><i class="fa-solid fa-circle-user"></i></a>
                 <a href="#" class="text-white text-decoration-none" id="logOutBtn">Đăng Xuất</a>
             </div>
         </div>`;
             }
         }
-        // createHeader();
+        createHeader();
+
+
+
+        document.getElementById("logOutBtn").addEventListener("click", function () {
+            sessionStorage.clear();
+
+            location.href = './pages/login.html';
+        });
     </script>
 </body>
 

@@ -62,7 +62,7 @@ checkOutAndRegister = function () {
     let answer = prompt("Set a recovery phrase. It will be used to reset your password if needed");
     // accounts.push({id: ++accounts.length, fullname: fullname, email: inputEmail, password: inputPassword, securityAnswer: answer});
     let newId = accounts.length + 1;
-    accounts.push({id: newId, fullname: fullname, email: inputEmail, password: inputPassword, role: "member", securityAnswer: answer});
+    accounts.push({id: newId, fullname: fullname, email: inputEmail, password: inputPassword, role: "member", securityAnswer: answer, avatarUrl: ""});
     localStorage.setItem("accounts", JSON.stringify(accounts));
     alert("Register successfully!! Please Login");
     location.href = '../pages/login.html';

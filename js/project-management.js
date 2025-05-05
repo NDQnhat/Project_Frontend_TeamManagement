@@ -67,6 +67,7 @@ function createHeader() {
             <div>
                 <a href="../pages/project-management.html" class="text-white me-3 text-decoration-none">Dự Án</a>
                 <a href="../pages/personal-task.html" class="text-white me-3 text-decoration-none">Nhiệm Vụ của tôi</a>
+                <a href="../index.html" class="text-white me-3 text-decoration-none"><i class="fa-solid fa-circle-user"></i></a>
                 <a href="#" class="text-white text-decoration-none" id="logOutBtn">Đăng Xuất</a>
             </div>
         </div>`;

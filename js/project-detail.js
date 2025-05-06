@@ -393,8 +393,11 @@ addEmployee = function () {
             return;
         }
     } else {
-        addRole = "Member";
-        // console.log("addRole", addRole);    
+        // addRole = "Member";
+        document.getElementById("member-role-add").removeAttribute("disabled");
+        if(addRole === "Project owner") {
+            addRole = "member"
+        }
     }
 
 
@@ -403,7 +406,7 @@ addEmployee = function () {
     if (isEmailExisted) {
         mistake.innerHTML = "Email đã tồn tại!!";
     } else {
-        currentProject.members.push({ userId: findUserIdByEmail(addEmail), role: addRole });
+        currentProject.members.push({ userId: findUserIdByEmail(addEmail), role: addRole});
         renderEmployee();
         updateDetailMemberModal();
         localStorage.setItem("allProjects", JSON.stringify(allProjects));
@@ -425,6 +428,12 @@ document.getElementById("addMemberBtn").addEventListener("click", function () {
         html += `<option value="${account.email}">${account.email}</option>`;
     });
     document.getElementById("member-email-add").innerHTML = html;
+
+    if(userLogIn.toLowerCase() === "admin") {
+        document.getElementById("member-role-add").setAttribute("disabled", "disabled");
+    } else {
+        document.getElementById("member-role-add").removeAttribute("disabled");
+    }
 
     document.getElementById("saveAddMemberBtn").removeAttribute("data-bs-dismiss");
     document.getElementById("saveAddMemberBtn").removeEventListener("click", addEmployee);

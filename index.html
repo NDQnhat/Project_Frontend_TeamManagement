@@ -67,6 +67,11 @@
         if (!role) {
             location.href = './pages/login.html';
         }
+
+        if(role.toLowerCase() === "admin") {
+            location.href = "./pages/project-management.html";
+        }
+
         let currentUser = users.find(user => user.email === role);
         // console.log(currentUser);
 

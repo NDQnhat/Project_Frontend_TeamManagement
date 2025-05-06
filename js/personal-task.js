@@ -171,9 +171,16 @@ function transferStatus(task) {
     let currentStatus = task.status;
     let index = transferStatusArray.indexOf(currentStatus);
 
-    // Tăng index lên 1, nếu đã là trạng thái cuối cùng thì quay lại đầu
-    let nextIndex = (index + 1) % transferStatusArray.length;
-    task.status = transferStatusArray[nextIndex];
+    // // Tăng index lên 1, nếu đã là trạng thái cuối cùng thì quay lại đầu
+    // let nextIndex = (index + 1) % transferStatusArray.length;
+    // task.status = transferStatusArray[nextIndex];
+    if (index === 1) {
+        task.status = transferStatusArray[index + 1];
+    } else if (index === 2) {
+        task.status = transferStatusArray[index - 1];
+    } else {
+        return -1;
+    }
     return task.status;
 }
 
@@ -211,11 +218,14 @@ document.getElementById("table-body").addEventListener("click", function (event)
                 let task = projectContainTask.tasks.find(task => task.id === +taskId);
                 // console.log(task);
                 let newStatus = transferStatus(task);
-                task.status = newStatus;
-                localStorage.setItem("allProjects", JSON.stringify(allProjects));
-                let statusElement = event.target.parentElement;
-                statusElement.innerHTML = `${newStatus} <i class="fa-light fa-pen-to-square edit-btn" data-id="${taskId}" data-bs-toggle="modal" data-bs-target="#confirmUpdate"></i>`;
-
+                if (newStatus !== -1) {
+                    task.status = newStatus;
+                    localStorage.setItem("allProjects", JSON.stringify(allProjects));
+                    let statusElement = event.target.parentElement;
+                    statusElement.innerHTML = `${newStatus} <i class="fa-light fa-pen-to-square edit-btn" data-id="${taskId}" data-bs-toggle="modal" data-bs-target="#confirmUpdate"></i>`;
+                } else {
+                    alert("Không thể chuyển trạng thái");
+                }
             }
         });
     }
@@ -239,7 +249,7 @@ function sortTask() {
         case "priority":
             // taskRows.sort((a, b) => a.querySelector(".priority").textContent.localeCompare(b.querySelector(".priority").textContent));
             let priorityMap = { "Cao": 1, "Trung bình": 2, "Thấp": 3 };
-            taskRows.sort((a, b) => priorityMap[a.querySelector(".priority").textContent] - priorityMap[b.querySelector(".priority").textContent]);
+            taskRows.sort((a, b) => priorityMap[a.querySelector(".priority").textContent] - priorityMap[b.querySelector(".priority").textContent]); //dung` key cua? obj de? so sanh ra so' vd priorityMap["Cao"] -> 1
             break;
     }
     let tableBody = document.getElementById("table-body");
@@ -257,7 +267,7 @@ searchTask = () => {
             name.parentElement.parentElement.classList.add("hidden-tasks");
         }
     });
-} 
+}
 
 
 

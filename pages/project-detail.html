@@ -158,7 +158,7 @@
                 <select name="" id="member-email-add" class="form-control form-select"></select>
                 <p id="printMistakeMember" class="text-danger fs-mistake my-2"></p>
                 <label for="role">Vai trò</label>
-                <input type="text" id="member-role-add" class="form-control" disabled>
+                <input type="text" id="member-role-add" class="form-control">
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy </button>
@@ -205,6 +205,24 @@
             </div>
             </div>
         </div>
+
+    <!-- alert modal -->
+    <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="alertModalLabel">Thông báo</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body" id="alertModalBody">
+              bạn không có quyền thêm thành viên!!
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModal">Đóng</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
     <script src="../js/project-detail.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>

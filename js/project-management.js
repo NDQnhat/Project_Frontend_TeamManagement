@@ -1,5 +1,5 @@
 let allProjects = JSON.parse(localStorage.getItem("allProjects")) || [
-    { id: 1, projectName: "Xây dựng website thương mại điện tử", members: [{ userId: 1, role: "Project owner" }, { userId: 2, role: "Frontend developer" }], description: "Dự án nhằm phát triển một nền tảng thương mại điện tử với các tính năng như giỏ hàng, thanh toán và quản lý sản phẩm.", tasks: [] },
+    { id: 1, projectName: "Xây dựng website thương mại điện tử", members: [], description: "Dự án nhằm phát triển một nền tảng thương mại điện tử với các tính năng như giỏ hàng, thanh toán và quản lý sản phẩm.", tasks: [] },
     { id: 2, projectName: "Phát triển ứng dụng di động", members: [], description: "", tasks: [] },
     { id: 3, projectName: "Quản lý dữ liệu khách hàng", members: [], description: "", tasks: [] },
     { id: 4, projectName: "Xây dựng website thương mại điện tử", members: [], description: "", tasks: [] },

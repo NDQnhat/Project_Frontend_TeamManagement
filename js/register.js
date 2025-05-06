@@ -64,6 +64,12 @@ checkOutAndRegister = function () {
     let newId = accounts.length + 1;
     accounts.push({id: newId, fullname: fullname, email: inputEmail, password: inputPassword, role: "member", securityAnswer: answer, avatarUrl: ""});
     localStorage.setItem("accounts", JSON.stringify(accounts));
-    alert("Register successfully!! Please Login");
-    location.href = '../pages/login.html';
+    // alert("Register successfully!! Please Login");
+    const myModal = new bootstrap.Modal(document.getElementById('alertModal'));
+    document.getElementById('alertModalBody').innerHTML = "Register successfully!! Please Login";
+    myModal.show();
+    document.getElementById('closeModal').addEventListener('click', function () {
+        myModal.hide();
+        location.href = '../pages/login.html';
+    });
 }

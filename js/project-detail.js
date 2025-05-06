@@ -340,42 +340,50 @@ function findAvatarOfUser(id) {
 }
 
 function renderEmployee() {
-
     html = ``;
-    console.log("arr",currentProject.members);
     currentProject.members.forEach(mem => {
-      
-        // console.log(mem.avatarUrl);
-        if (mem.avatarUrl === "") {
+        // Check if the member has an avatar URL and if it's not empty
+        let avatarUrl = findAvatarOfUser(mem.userId);
+        let userName = findUserName(mem.userId);
+
+        if (!avatarUrl || avatarUrl === "") {
+            // If no avatar, create a div with initials
+            let initials = userName.split(" ").pop().substring(0, 2);
             html += `
                 <div class="mb-2 me-2 p-2">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="member-info">
-                            <div class="member-avatar">${findUserName(mem.userId).split(" ").pop().substring(0, 2)}</div>
+                            <div class="member-avatar">${initials}</div>
                             <div>
-                                <div>${findUserName(mem.userId)}</div>
+                                <div>${userName}</div>
                                 <small class="text-muted">${mem.role}</small>
                             </div>
                         </div>
                     </div>
                 </div>`;
         } else {
-                html += `
-                    <div class="mb-2 me-2 p-2">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="member-info">
-                                <img src="${mem.avatarUrl}" alt="avatar" class="member-avatar">
-                                <div>
-                                    <div>${findUserName(mem.userId)}</div>
-                                    <small class="text-muted">${mem.role}</small>
-                                </div>
+            // If avatar exists, use the image
+            html += `
+                <div class="mb-2 me-2 p-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="member-info">
+                            <img src="${avatarUrl}" alt="avatar" class="member-avatar">
+                            <div>
+                                <div>${userName}</div>
+                                <small class="text-muted">${mem.role}</small>
                             </div>
                         </div>
-                    </div>`;
+                    </div>
+                </div>`;
         }
     });
     html += `<img src="../assets/icon/More.png" alt="more" id="watchMoreMember" data-bs-toggle="modal" data-bs-target="#detailMember">`;
     document.getElementById("member-list").innerHTML = html;
+
+    // Re-attach the event listener for the "watchMoreMember" button
+    document.getElementById("watchMoreMember").addEventListener("click", function () {
+        updateDetailMemberModal();
+    });
 }
 renderEmployee();
 
@@ -386,17 +394,30 @@ addEmployee = function () {
     // console.log(findUserIdByEmail(addEmail));
 
     if (userLogIn.toLowerCase() === "admin") {
-        addRole = "Project owner";
+        // addRole = "Project owner";
         let isProjectOwnerSet = currentProject.members.some(member => member.role === "Project owner");
-        if (isProjectOwnerSet) {
-            alert("Bạn đã cấp Project owner cho gnười dùng khác!!");
-            return;
+        if (isProjectOwnerSet && addRole === "Project owner") {
+            // alert("Bạn đã cấp Project owner cho gnười dùng khác!!");
+            const myModal = new bootstrap.Modal(document.getElementById('alertModal'));
+            document.getElementById('alertModalBody').innerHTML = "Bạn đã cấp Project owner cho gnười dùng khác!!";
+            myModal.show();
+            document.getElementById('closeModal').addEventListener('click', function () {
+                myModal.hide();
+                return;
+            });
         }
     } else {
         // addRole = "Member";
-        document.getElementById("member-role-add").removeAttribute("disabled");
-        if(addRole === "Project owner") {
-            addRole = "member"
+        if (addRole === "Project owner") {
+            addRole = "member";
+            // alert("Bạn không có quyền cấp Project owner!!");
+            const myModal = new bootstrap.Modal(document.getElementById('alertModal'));
+            document.getElementById('alertModalBody').innerHTML = "Bạn không có quyền cấp Project owner!!";
+            myModal.show();
+            document.getElementById('closeModal').addEventListener('click', function () {
+                myModal.hide();
+                return;
+            });
         }
     }
 
@@ -406,7 +427,7 @@ addEmployee = function () {
     if (isEmailExisted) {
         mistake.innerHTML = "Email đã tồn tại!!";
     } else {
-        currentProject.members.push({ userId: findUserIdByEmail(addEmail), role: addRole});
+        currentProject.members.push({ userId: findUserIdByEmail(addEmail), role: addRole });
         renderEmployee();
         updateDetailMemberModal();
         localStorage.setItem("allProjects", JSON.stringify(allProjects));
@@ -429,11 +450,11 @@ document.getElementById("addMemberBtn").addEventListener("click", function () {
     });
     document.getElementById("member-email-add").innerHTML = html;
 
-    if(userLogIn.toLowerCase() === "admin") {
-        document.getElementById("member-role-add").setAttribute("disabled", "disabled");
-    } else {
-        document.getElementById("member-role-add").removeAttribute("disabled");
-    }
+    // if (userLogIn.toLowerCase() === "admin") {
+    //     document.getElementById("member-role-add").value = "Project owner";
+    // } else {
+    //     document.getElementById("member-role-add").value = "Member";
+    // }
 
     document.getElementById("saveAddMemberBtn").removeAttribute("data-bs-dismiss");
     document.getElementById("saveAddMemberBtn").removeEventListener("click", addEmployee);
@@ -451,25 +472,54 @@ function updateDetailMemberModal() {
                     <p class="text-center">Vai trò</p>
                 </div>
             </div>`;
+    
     currentProject.members.forEach(mem => {
-        html += `<div class="row">
-                    <div class="col">
-                        <div class="mb-2 me-2 p-2">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="member-info">
-                                    <div class="member-avatar">${findUserName(mem.userId).split(" ").pop().substring(0, 2)}</div>
-                                    <div>
-                                        <div>${findUserName(mem.userId)}</div>
-                                        <small class="text-muted">${findEmailOfUser(mem.userId)}</small>
+        let userName = findUserName(mem.userId);
+        let avatarUrl = findAvatarOfUser(mem.userId);
+        let userEmail = findEmailOfUser(mem.userId);
+        
+        if (!avatarUrl || avatarUrl === "") {
+            // No avatar - use div with initials
+            let initials = userName.split(" ").pop().substring(0, 2);
+            html += `<div class="row">
+                        <div class="col">
+                            <div class="mb-2 me-2 p-2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="member-info">
+                                        <div class="member-avatar">${initials}</div>
+                                        <div>
+                                            <div>${userName}</div>
+                                            <small class="text-muted">${userEmail}</small>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col mb-2 me-2 p-2 d-flex justify-content-end align-items-center gap-2">
-                        <div class="card">${mem.role}</div><i class="fa-solid fa-trash-can-slash" onclick="delEmployee(${mem.userId})"></i>
-                    </div>
-                </div>`;
+                        <div class="col mb-2 me-2 p-2 d-flex justify-content-end align-items-center gap-2">
+                            <div class="card">${mem.role}</div><i class="fa-solid fa-trash-can-slash" onclick="delEmployee(${mem.userId})"></i>
+                        </div>
+                    </div>`;
+        } else {
+            // Has avatar - use image
+            html += `<div class="row">
+                        <div class="col">
+                            <div class="mb-2 me-2 p-2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="member-info">
+                                        <img src="${avatarUrl}" alt="avatar" class="member-avatar">
+                                        <div>
+                                            <div>${userName}</div>
+                                            <small class="text-muted">${userEmail}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col mb-2 me-2 p-2 d-flex justify-content-end align-items-center gap-2">
+                            <div class="card">${mem.role}</div><i class="fa-solid fa-trash-can-slash" onclick="delEmployee(${mem.userId})"></i>
+                        </div>
+                    </div>`;
+        }
     });
     document.getElementById("detailAllMember").innerHTML = html;
 }

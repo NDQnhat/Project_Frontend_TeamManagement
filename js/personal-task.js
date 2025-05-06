@@ -171,7 +171,7 @@ function transferStatus(task) {
     let currentStatus = task.status;
     let index = transferStatusArray.indexOf(currentStatus);
 
-    // // Tăng index lên 1, nếu đã là trạng thái cuối cùng thì quay lại đầu
+    // // tang index len 1 neu' da~ la` done thi` ve` lai. todo
     // let nextIndex = (index + 1) % transferStatusArray.length;
     // task.status = transferStatusArray[nextIndex];
     if (index === 1) {
@@ -192,42 +192,45 @@ function transferStatus(task) {
 
 document.getElementById("table-body").addEventListener("click", function (event) {
     if (event.target.classList.contains("edit-btn")) {
-        document.getElementById("confirmUpdateBtn").addEventListener("click", function () {
-            // let taskId = event.target.dataset.id;
-            let taskId = event.target.getAttribute("data-id");
-            // console.log(taskId);
+        // document.getElementById("confirmUpdateBtn").addEventListener("click", function () {     //chua xoa' su. kien. cu~ nen khi nhan' vao` de? chuyen? doi? lan` 2 thi` se~ bi. loi~ phai? load lai. trang moi' duoc.
+        // let taskId = event.target.dataset.id;
+        let taskId = event.target.getAttribute("data-id");
+        // console.log(taskId);
 
-            // event.target.closest(".task-row").querySelector(".status").textContent = status;
-            // event.target.parentElement.querySelector(".status").textContent = status;
-            // let task = null;
-            // let projectIndex = -1;
-            // let taskIndex = -1;
+        // event.target.closest(".task-row").querySelector(".status").textContent = status;
+        // event.target.parentElement.querySelector(".status").textContent = status;
+        // let task = null;
+        // let projectIndex = -1;
+        // let taskIndex = -1;
 
-            // for (let i = 0; i < allProjects.length; i++) {
-            //     let taskFound = allProjects[i].tasks.findIndex(t => t.id === taskId);
-            //     if (taskFound !== -1) {
-            //         task = allProjects[i].tasks[taskFound];
-            //         projectIndex = i;
-            //         taskIndex = taskFound;
-            //         break;
-            //     }
-            // }
-            let projectContainTask = allProjects.find(project => project.tasks.find(task => task.id === +taskId));
+        // for (let i = 0; i < allProjects.length; i++) {
+        //     let taskFound = allProjects[i].tasks.findIndex(t => t.id === taskId);
+        //     if (taskFound !== -1) {
+        //         task = allProjects[i].tasks[taskFound];
+        //         projectIndex = i;
+        //         taskIndex = taskFound;
+        //         break;
+        //     }
+        // }
+        let projectContainTask = allProjects.find(project => project.tasks.find(task => task.id === +taskId));
+        // console.log(task);
+        if (projectContainTask) {
+            let task = projectContainTask.tasks.find(task => task.id === +taskId);
             // console.log(task);
-            if (projectContainTask) {
-                let task = projectContainTask.tasks.find(task => task.id === +taskId);
-                // console.log(task);
+
+            //gan' su. kien. cho nut' edit-btn
+            document.getElementById("confirmUpdateBtn").onclick = function () {
                 let newStatus = transferStatus(task);
+                let statusElement = event.target.parentElement;
                 if (newStatus !== -1) {
                     task.status = newStatus;
                     localStorage.setItem("allProjects", JSON.stringify(allProjects));
-                    let statusElement = event.target.parentElement;
                     statusElement.innerHTML = `${newStatus} <i class="fa-light fa-pen-to-square edit-btn" data-id="${taskId}" data-bs-toggle="modal" data-bs-target="#confirmUpdate"></i>`;
                 } else {
                     alert("Không thể chuyển trạng thái");
                 }
             }
-        });
+        }
     }
 });
 

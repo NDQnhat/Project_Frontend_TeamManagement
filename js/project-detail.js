@@ -396,7 +396,7 @@ addEmployee = function () {
     if (userLogIn.toLowerCase() === "admin") {
         // addRole = "Project owner";
         let isProjectOwnerSet = currentProject.members.some(member => member.role === "Project owner");
-        if (isProjectOwnerSet && addRole === "Project owner") {
+        if (isProjectOwnerSet && addRole.toLowerCase().trim() === "project owner") {
             // alert("Bạn đã cấp Project owner cho gnười dùng khác!!");
             const myModal = new bootstrap.Modal(document.getElementById('alertModal'));
             document.getElementById('alertModalBody').innerHTML = "Bạn đã cấp Project owner cho gnười dùng khác!!";
@@ -408,8 +408,8 @@ addEmployee = function () {
         }
     } else {
         // addRole = "Member";
-        if (addRole === "Project owner") {
-            addRole = "member";
+        if (addRole.toLowerCase().trim() === "project owner") {
+            addRole = "Member";
             // alert("Bạn không có quyền cấp Project owner!!");
             const myModal = new bootstrap.Modal(document.getElementById('alertModal'));
             document.getElementById('alertModalBody').innerHTML = "Bạn không có quyền cấp Project owner!!";
@@ -418,12 +418,17 @@ addEmployee = function () {
                 myModal.hide();
                 return;
             });
+            return;
         }
     }
 
 
     let isEmailExisted = addEmail === "" || currentProject.members.some(member => member.userId === findUserIdByEmail(addEmail));
     // console.log(isEmailExisted);
+    if (addEmail === "" || addEmail === "#" || addRole === "") {
+        mistake.innerHTML = "Email hoặc vai trò không hợp lẹ!!!!!";
+        return;
+    }
     if (isEmailExisted) {
         mistake.innerHTML = "Email đã tồn tại!!";
     } else {
@@ -450,11 +455,11 @@ document.getElementById("addMemberBtn").addEventListener("click", function () {
     });
     document.getElementById("member-email-add").innerHTML = html;
 
-    // if (userLogIn.toLowerCase() === "admin") {
-    //     document.getElementById("member-role-add").value = "Project owner";
-    // } else {
-    //     document.getElementById("member-role-add").value = "Member";
-    // }
+    if (userLogIn.toLowerCase() === "admin") {
+        document.getElementById("member-role-add").value = "Project owner";
+    } else {
+        document.getElementById("member-role-add").value = "Member";
+    }
 
     document.getElementById("saveAddMemberBtn").removeAttribute("data-bs-dismiss");
     document.getElementById("saveAddMemberBtn").removeEventListener("click", addEmployee);
